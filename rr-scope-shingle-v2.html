@@ -135,33 +135,55 @@ const LAYERS = [
 
 const CORE = ['Full tear-off & inspection', 'Ice & water shield — valley', 'Synthetic underlayment', 'All new metal flashings', 'Starter strip', 'Architectural shingles', 'Hip & ridge caps', '10-yr workmanship warranty'];
 
-// Build upgrades dynamically from parent app selections
 let UPGRADES = [];
-(function(){
-  try{
-    const p=window.parent.currentPrice||'p1';
-    const pre=window.parent.setupUpgrades?.[p]||new Set();
-    const scope=window.parent.SCOPES?.['shingle'];
-    const stepMap={
-      'multi_layer':0,'multiple_layers':0,'tearoff':0,
-      'udl50':3,'psu30':3,'titanium':3,
-      'crickets':4,'build_crickets':4,'coping_metal':4,
-      'oc_platinum':5,'solar_protect':5,'thermasheet':5,
-    };
-    const icons={'multi_layer':'⚡','multiple_layers':'⚡','tearoff':'⚡',
-      'udl50':'🛡','psu30':'🛡','titanium':'🛡',
-      'crickets':'🔺','build_crickets':'🔺','coping_metal':'🔺',
-      'oc_platinum':'🏆','solar_protect':'🏆','thermasheet':'🏆',
-    };
-    (scope?.upgrades||[]).forEach(u=>{
-      if(!pre.has(u.id))return;
-      UPGRADES.push({name:u.name,icon:icons[u.id]||'★',step:stepMap[u.id]??5});
-    });
-  }catch(e){
-    // Fallback if parent not accessible
-    UPGRADES=[];
+
+// Receive data from parent app via postMessage
+window.addEventListener('message', function(e){
+  if(!e.data || e.data.type !== 'scopeInit') return;
+  
+  // Set title
+  const titleEl = document.getElementById('pitch-title');
+  if(titleEl) titleEl.textContent = e.data.title || '';
+
+  // Build upgrade list
+  const stepMap = {
+    'multi_layer':0,'multiple_layers':0,'tearoff':0,
+    'udl50':3,'psu30':3,'titanium':3,
+    'crickets':4,'build_crickets':4,'coping_metal':4,
+    'oc_platinum':5,'solar_protect':5,'thermasheet':5,
+  };
+  const icons = {
+    'multi_layer':'⚡','multiple_layers':'⚡','tearoff':'⚡',
+    'udl50':'🛡','psu30':'🛡','titanium':'🛡',
+    'crickets':'🔺','build_crickets':'🔺','coping_metal':'🔺',
+    'oc_platinum':'🏆','solar_protect':'🏆','thermasheet':'🏆',
+  };
+  UPGRADES = (e.data.upgrades||[]).map(u=>({
+    name: u.name,
+    icon: icons[u.id]||'★',
+    step: stepMap[u.id]??5
+  }));
+
+  // Rebuild upgrade pills
+  const upEl = document.getElementById('upgrade-list');
+  if(upEl){
+    upEl.innerHTML = '';
+    if(!UPGRADES.length){
+      upEl.innerHTML='<div style="font-size:12px;color:rgba(255,255,255,0.2);padding:8px 10px;line-height:1.5;">No upgrades<br>selected</div>';
+    } else {
+      UPGRADES.forEach((u,i)=>{
+        const el=document.createElement('div');
+        el.className='upgrade-item';
+        el.dataset.step=u.step;
+        el.innerHTML='<div class="upgrade-icon">'+u.icon+'</div><div class="upgrade-name">'+u.name+'</div><div class="upgrade-badge">SELECTED</div>';
+        upEl.appendChild(el);
+      });
+    }
   }
-})();
+  
+  // Re-render to apply upgrade highlights
+  render();
+});
 
 let scCur = 0;
 
@@ -191,15 +213,7 @@ LAYERS.forEach((L,i) => {
 })();
 
 // Populate title from parent app
-(function(){
-  try{
-    const p=window.parent.currentPrice||'p1';
-    // Custom label the rep typed (e.g. "Premium Package")
-    const customLabel=window.parent.document.getElementById('label-'+p)?.value?.trim();
-    const el=document.getElementById('pitch-title');
-    if(el) el.textContent=customLabel||'Shingle Roof';
-  }catch(e){}
-})();
+
 
 // Build step pills
 const stepList = document.getElementById('step-list');
