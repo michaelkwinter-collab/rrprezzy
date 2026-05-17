@@ -1870,6 +1870,11 @@ function loadOption(p){
 function resetSummary(){
   clearStorage();
   pitchData={};visiblePrices=[];sel={};coreOpen=false;coreShown=false;
+  // Reset dropdowns to "Select Roof Type"
+  ['p1','p2','p3'].forEach(p=>{
+    const el=document.getElementById('type-'+p);
+    if(el)el.value='';
+  });
   addonActive={};gutterSize=5;
   ['gutters','painting','solar','skylight','solar_fan','insulation','woodcredit','misc','misc2','misc3'].forEach(id=>{
     document.getElementById('card-'+id)?.classList.remove('active');
