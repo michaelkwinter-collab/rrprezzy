@@ -59,10 +59,10 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
 .label-desc{font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px;}
 
 /* UPGRADE CALLOUT — appears when upgrade step active */
-.upgrade-callout{position:absolute;top:16px;right:16px;background:rgba(232,119,34,0.15);border:1px solid rgba(232,119,34,0.4);border-radius:10px;padding:8px 14px;opacity:0;transform:translateY(-6px);transition:all .4s;pointer-events:none;}
-.upgrade-callout.show{opacity:1;transform:translateY(0);}
-.uc-label{font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#E87722;margin-bottom:2px;}
-.uc-name{font-size:13px;font-weight:700;color:#fff;}
+.upgrade-callout-hidden{position:absolute;top:16px;right:16px;background:rgba(232,119,34,0.15);border:1px solid rgba(232,119,34,0.4);border-radius:10px;padding:8px 14px;opacity:0;transform:translateY(-6px);transition:all .4s;pointer-events:none;}
+.upgrade-callout-hidden.show{opacity:1;transform:translateY(0);}
+.uc-label-hidden{font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#E87722;margin-bottom:2px;}
+.uc-name-hidden{font-size:13px;font-weight:700;color:#fff;}
 
 /* NAV */
 .nav{flex-shrink:0;height:68px;background:rgba(0,0,0,0.5);border-top:0.5px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:space-between;padding:0 20px;}
@@ -99,10 +99,7 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
     <div style="display:flex;flex-direction:column;flex:1;min-height:0;">
       <div id="pitch-title" style="text-align:center;padding:10px 20px 0;font-size:22px;font-weight:700;color:#fff;letter-spacing:-0.3px;flex-shrink:0;"></div>
       <div class="image-area" id="image-area" style="flex:1;">
-        <div class="upgrade-callout" id="upgrade-callout">
-          <div class="uc-label">Upgrade Highlight</div>
-          <div class="uc-name" id="uc-name"></div>
-        </div>
+  
         <div class="label-box" id="label-box">
           <div class="label-step" id="lbl-step"></div>
           <div class="label-name" id="lbl-name"></div>
