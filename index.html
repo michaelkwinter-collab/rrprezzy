@@ -659,7 +659,7 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
                 <option value="tile_relay_tpo">Tile Relay + TPO</option>
               </optgroup>
             </select>
-            <input type="text" class="setup-label-input" id="label-p1" placeholder="Custom name (optional)">
+            <input type="text" class="setup-label-input" id="label-p1" placeholder="Option name (required)">
             <div class="setup-upgrades" id="upgrades-p1"></div>
             <div class="repair-fields" id="repair-fields-p1">
               <input type="text" class="repair-field" id="repair-line-p1-1" placeholder="Line 1 (e.g. Replace flashing at chimney)" oninput="saveToStorage()">
@@ -694,7 +694,7 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
                 <option value="tile_relay_tpo">Tile Relay + TPO</option>
               </optgroup>
             </select>
-            <input type="text" class="setup-label-input" id="label-p2" placeholder="Custom name (optional)">
+            <input type="text" class="setup-label-input" id="label-p2" placeholder="Option name (required)">
             <div class="setup-upgrades" id="upgrades-p2"></div>
             <div class="repair-fields" id="repair-fields-p2">
               <input type="text" class="repair-field" id="repair-line-p2-1" placeholder="Line 1 (e.g. Replace flashing at chimney)" oninput="saveToStorage()">
@@ -729,7 +729,7 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
                 <option value="tile_relay_tpo">Tile Relay + TPO</option>
               </optgroup>
             </select>
-            <input type="text" class="setup-label-input" id="label-p3" placeholder="Custom name (optional)">
+            <input type="text" class="setup-label-input" id="label-p3" placeholder="Option name (required)">
             <div class="setup-upgrades" id="upgrades-p3"></div>
             <div class="repair-fields" id="repair-fields-p3">
               <input type="text" class="repair-field" id="repair-line-p3-1" placeholder="Line 1 (e.g. Replace flashing at chimney)" oninput="saveToStorage()">
@@ -1331,31 +1331,8 @@ function onScopeChange(p){
   syncCards();
 }
 
-function updateDefaultLabels(){
-  const types = ['p1','p2','p3'].map(p=>document.getElementById('type-'+p)?.value||'');
-  // Count how many times each type appears
-  const counts = {};
-  types.forEach(t=>{ if(t) counts[t]=(counts[t]||0)+1; });
-  const seen = {};
-  ['p1','p2','p3'].forEach((p,i)=>{
-    const labelEl = document.getElementById('label-'+p);
-    // Never touch a field the rep has manually edited
-    if(!labelEl || labelEl.dataset.edited) return;
-    const t = types[i];
-    if(!t){ labelEl.value=''; return; } // no type selected
-    const typeName = TYPE_LABELS[t]||t;
-    let newVal;
-    if(counts[t]>1){
-      seen[t]=(seen[t]||0)+1;
-      newVal = typeName+' #'+seen[t];
-    } else {
-      newVal = typeName;
-    }
-    // Mark as auto-filled so we know it's safe to update next time
-    labelEl.dataset.autofilled = '1';
-    labelEl.value = newVal;
-  });
-}
+function updateDefaultLabels(){}
+
 
 function renderSetupUpgrades(p){
   const type = document.getElementById('type-'+p)?.value||'shingle';
@@ -1383,16 +1360,7 @@ function toggleSetupUpgrade(p, id, el){
 }
 
 function initSetupUpgrades(){
-  // Mark label fields as edited when rep types in them
-  ['p1','p2','p3'].forEach(p=>{
-    const el=document.getElementById('label-'+p);
-    if(el){
-      el.addEventListener('input',function(){
-        this.dataset.edited='1';
-        delete this.dataset.autofilled;
-      });
-    }
-  });
+
   ['p1','p2','p3'].forEach(p=>{
     setupUpgrades[p]=new Set();
     renderSetupUpgrades(p);
@@ -1909,7 +1877,7 @@ function resetSummary(){
     const typeEl=document.getElementById('type-'+p);
     if(typeEl)typeEl.value='';
     const labelEl=document.getElementById('label-'+p);
-    if(labelEl){labelEl.value='';delete labelEl.dataset.edited;delete labelEl.dataset.autofilled;}
+    if(labelEl){labelEl.value='';}
   });
   addonActive={};gutterSize=5;
   ['gutters','painting','solar','skylight','solar_fan','insulation','woodcredit','misc','misc2','misc3'].forEach(id=>{
@@ -1925,7 +1893,7 @@ function resetSummary(){
   // Clear option fields
   ['p1','p2','p3'].forEach(p=>{
     const priceEl=document.getElementById('price-'+p);if(priceEl)priceEl.value='';
-    const labelEl=document.getElementById('label-'+p);if(labelEl){labelEl.value='';delete labelEl.dataset.edited;delete labelEl.dataset.autofilled;}
+    const labelEl=document.getElementById('label-'+p);if(labelEl){labelEl.value='';}
     setupUpgrades[p]=new Set();
     renderSetupUpgrades(p);
   });
