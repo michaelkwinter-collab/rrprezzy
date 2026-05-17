@@ -1669,7 +1669,7 @@ function renderSummary(){
 
     const psf=d.price>0?Math.round(d.price/20):0;
     col.innerHTML=`
-      <div class="col-header" style="position:relative;cursor:pointer;" onclick="selPrice('${p}')">
+      <div class="col-header" style="position:relative;">
         <div class="col-tier-lbl">${pLabel}</div>
         <div class="col-pkg-name">${d.label}</div>
         <button onclick="toggleMuteCol('${p}')" id="mute-btn-${p}" title="Mute this option" style="position:absolute;top:8px;right:8px;background:none;border:none;cursor:pointer;opacity:0.4;font-size:16px;line-height:1;color:var(--text2);padding:2px 6px;" ontouchstart="this.style.opacity='0.8'" ontouchend="this.style.opacity='0.4'">&#9673;</button>
