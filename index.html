@@ -545,20 +545,7 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
           <label>Your email</label>
           <input type="email" id="rep-email" placeholder="e.g. mike@resilientroofing.com" inputmode="email">
         </div>
-        <div style="height:1px;background:var(--border);margin:6px 0 2px;"></div>
-        <div style="font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--navy);padding:6px 0 4px;">Follow-up reminder</div>
-        <div class="share-rep-field">
-          <label>Follow-up date</label>
-          <input type="date" id="followup-date" style="font-size:16px;">
-        </div>
-        <div class="share-rep-field">
-          <label>Follow-up time</label>
-          <input type="time" id="followup-time" value="10:00" style="font-size:16px;">
-        </div>
-        <div class="share-rep-field">
-          <label>Note (optional)</label>
-          <input type="text" id="followup-note" placeholder="e.g. Call to discuss Stone Coated">
-        </div>
+
       </div>
       <button class="share-btn" id="share-btn" onclick="generateAndShare()">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
@@ -659,7 +646,7 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
                 <option value="tile_relay_tpo">Tile Relay + TPO</option>
               </optgroup>
             </select>
-            <input type="text" class="setup-label-input" id="label-p1" placeholder="Option name (required)">
+            <input type="text" class="setup-label-input" id="label-p1" placeholder="Custom name (optional)">
             <div class="setup-upgrades" id="upgrades-p1"></div>
             <div class="repair-fields" id="repair-fields-p1">
               <input type="text" class="repair-field" id="repair-line-p1-1" placeholder="Line 1 (e.g. Replace flashing at chimney)" oninput="saveToStorage()">
@@ -694,7 +681,7 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
                 <option value="tile_relay_tpo">Tile Relay + TPO</option>
               </optgroup>
             </select>
-            <input type="text" class="setup-label-input" id="label-p2" placeholder="Option name (required)">
+            <input type="text" class="setup-label-input" id="label-p2" placeholder="Custom name (optional)">
             <div class="setup-upgrades" id="upgrades-p2"></div>
             <div class="repair-fields" id="repair-fields-p2">
               <input type="text" class="repair-field" id="repair-line-p2-1" placeholder="Line 1 (e.g. Replace flashing at chimney)" oninput="saveToStorage()">
@@ -729,7 +716,7 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
                 <option value="tile_relay_tpo">Tile Relay + TPO</option>
               </optgroup>
             </select>
-            <input type="text" class="setup-label-input" id="label-p3" placeholder="Option name (required)">
+            <input type="text" class="setup-label-input" id="label-p3" placeholder="Custom name (optional)">
             <div class="setup-upgrades" id="upgrades-p3"></div>
             <div class="repair-fields" id="repair-fields-p3">
               <input type="text" class="repair-field" id="repair-line-p3-1" placeholder="Line 1 (e.g. Replace flashing at chimney)" oninput="saveToStorage()">
@@ -1258,6 +1245,9 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
 <script>
 const TYPE_LABELS={shingle:"Shingle",stone_coated:"Stone Coated Steel",new_tile:"New Concrete Tile",tile_relay:"Tile Relay",tpo:"TPO",silicone:"Silicone Coating",repairs:"Repairs / Misc",shingle_tpo:"Shingle + TPO",stone_coated_tpo:"Stone Coated + TPO",new_tile_tpo:"New Concrete Tile + TPO",tile_relay_tpo:"Tile Relay + TPO"};
 const IC=["#dbeafe","#dcfce7","#fef9c3","#fce7f3","#ede9fe","#ffedd5","#e0f2fe","#fef3c7","#fdf2f8","#d1fae5"];
+const TPO_80={id:"tpo_80mil",name:"TPO — JM 80 mil (25yr)",sub:"JM 80 Mil TPO — 25-year warranty",icon:"\u{1F3E2}",desc:"Premium JM 80 Mil TPO system — ISO foam board, JM 80 Mil TPO membrane, CLAD edge metal and flashings. 25-year manufacturer warranty.",pts:["1/2\u201D ISO foam board insulation","JM 80 Mil TPO membrane","TPO CLAD edge
+const TYPE_LABELS={shingle:"Shingle",stone_coated:"Stone Coated Steel",new_tile:"New Concrete Tile",tile_relay:"Tile Relay",tpo:"TPO",silicone:"Silicone Coating",repairs:"Repairs / Misc",shingle_tpo:"Shingle + TPO",stone_coated_tpo:"Stone Coated + TPO",new_tile_tpo:"New Concrete Tile + TPO",tile_relay_tpo:"Tile Relay + TPO"};
+const IC=["#dbeafe","#dcfce7","#fef9c3","#fce7f3","#ede9fe","#ffedd5","#e0f2fe","#fef3c7","#fdf2f8","#d1fae5"];
 const TPO_80={id:"tpo_80mil",name:"TPO — JM 80 mil (25yr)",sub:"JM 80 Mil TPO — 25-year warranty",icon:"\u{1F3E2}",desc:"Premium JM 80 Mil TPO system — ISO foam board, JM 80 Mil TPO membrane, CLAD edge metal and flashings. 25-year manufacturer warranty.",pts:["1/2\u201D ISO foam board insulation","JM 80 Mil TPO membrane","TPO CLAD edge metal & flashings","10-yr workmanship + 25-yr manufacturer warranty"]};
 const TPO_60={id:"tpo_60mil",name:"TPO — JM 60 mil (20yr)",sub:"JM 60 Mil TPO — 20-year warranty",icon:"\u{1F3E2}",desc:"JM 60 Mil TPO system — ISO foam board, JM 60 Mil TPO membrane, CLAD edge metal and flashings. 20-year manufacturer warranty.",pts:["1/2\u201D ISO foam board insulation","JM 60 Mil TPO membrane","TPO CLAD edge metal & flashings","10-yr workmanship + 20-yr manufacturer warranty"]};
 const TPO_45={id:"tpo_45mil",name:"TPO — JM 45 mil (15yr)",sub:"JM 45 Mil TPO — 15-year warranty",icon:"\u{1F3E2}",desc:"JM 45 Mil TPO system — ISO foam board, JM 45 Mil TPO membrane, CLAD edge metal and flashings. 15-year manufacturer warranty.",pts:["1/2\u201D ISO foam board insulation","JM 45 Mil TPO membrane","TPO CLAD edge metal & flashings","10-yr workmanship + 15-yr manufacturer warranty"]};
@@ -1333,7 +1323,6 @@ function onScopeChange(p){
 
 function updateDefaultLabels(){}
 
-
 function renderSetupUpgrades(p){
   const type = document.getElementById('type-'+p)?.value||'shingle';
   const scope = SCOPES[type];
@@ -1360,7 +1349,6 @@ function toggleSetupUpgrade(p, id, el){
 }
 
 function initSetupUpgrades(){
-
   ['p1','p2','p3'].forEach(p=>{
     setupUpgrades[p]=new Set();
     renderSetupUpgrades(p);
@@ -1391,7 +1379,6 @@ function buildSettingsRows(){
 }
 
 function goToSummaryFromScope(){
-  // Called from inside scope iframe
   visiblePrices.forEach(p=>refreshPitchFromSetup(p));
   renderSummary();
   show('s-summary');
@@ -1399,25 +1386,15 @@ function goToSummaryFromScope(){
 
 function goToScopeShingle(){
   show('s-scope-shingle');
-  // Send pitch data to iframe via postMessage
-  const p = currentPrice || 'p1';
-  const pre = setupUpgrades[p] || new Set();
-  const scope = SCOPES['shingle'];
-  const customLabel = document.getElementById('label-'+p)?.value?.trim() || '';
-  const selectedUpgrades = (scope?.upgrades||[])
-    .filter(u => pre.has(u.id))
-    .map(u => ({id:u.id, name:u.name}));
-  const msg = {
-    type: 'scopeInit',
-    title: customLabel || 'Shingle Roof',
-    upgrades: selectedUpgrades
-  };
-  const iframe = document.getElementById('scope-iframe');
-  // Send immediately and also after load (in case iframe not ready yet)
-  try{ iframe.contentWindow.postMessage(msg,'*'); }catch(e){}
-  iframe.onload = function(){
-    try{ iframe.contentWindow.postMessage(msg,'*'); }catch(e){}
-  };
+  const p=currentPrice||'p1';
+  const pre=setupUpgrades[p]||new Set();
+  const scope=SCOPES['shingle'];
+  const customLabel=document.getElementById('label-'+p)?.value?.trim()||'';
+  const selectedUpgrades=(scope?.upgrades||[]).filter(u=>pre.has(u.id)).map(u=>({id:u.id,name:u.name}));
+  const msg={type:'scopeInit',title:customLabel||'Shingle Roof',upgrades:selectedUpgrades};
+  const iframe=document.getElementById('scope-iframe');
+  try{iframe.contentWindow.postMessage(msg,'*');}catch(e){}
+  iframe.onload=function(){try{iframe.contentWindow.postMessage(msg,'*');}catch(e){}};
 }
 
 function goToBuilder(){
@@ -1872,13 +1849,7 @@ function loadOption(p){
 function resetSummary(){
   clearStorage();
   pitchData={};visiblePrices=[];sel={};coreOpen=false;coreShown=false;
-  // Reset dropdowns to "Select Roof Type"
-  ['p1','p2','p3'].forEach(p=>{
-    const typeEl=document.getElementById('type-'+p);
-    if(typeEl)typeEl.value='';
-    const labelEl=document.getElementById('label-'+p);
-    if(labelEl){labelEl.value='';}
-  });
+  ['p1','p2','p3'].forEach(p=>{const t=document.getElementById('type-'+p);if(t)t.value='';const l=document.getElementById('label-'+p);if(l)l.value='';});
   addonActive={};gutterSize=5;
   ['gutters','painting','solar','skylight','solar_fan','insulation','woodcredit','misc','misc2','misc3'].forEach(id=>{
     document.getElementById('card-'+id)?.classList.remove('active');
@@ -1893,7 +1864,7 @@ function resetSummary(){
   // Clear option fields
   ['p1','p2','p3'].forEach(p=>{
     const priceEl=document.getElementById('price-'+p);if(priceEl)priceEl.value='';
-    const labelEl=document.getElementById('label-'+p);if(labelEl){labelEl.value='';}
+    const labelEl=document.getElementById('label-'+p);if(labelEl){labelEl.value='';delete labelEl.dataset.edited;}
     setupUpgrades[p]=new Set();
     renderSetupUpgrades(p);
   });
@@ -3008,20 +2979,7 @@ document.addEventListener('click', function(e){
 });
 
 
-</script>
-</div>
-<!-- RESOURCES SLIDE-UP PANEL -->
-<div class="res-backdrop" id="res-backdrop" onclick="handleBackdropClick(event)">
-  <div class="res-panel">
-    <div class="res-panel-handle"></div>
-    <div class="res-panel-hdr">
-      <div class="res-panel-title">Resources</div>
-      <button class="res-panel-close" onclick="closeResources()">&#x2715;</button>
-    </div>
-
-    <div class="res-cards">
-      <div class="res-card" onclick="openGuide('comparing')">
-        <div class="res-card-icon" style="background:#E6F1FB;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#185FA5" stroke-width="1.8"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/><path d="M9 12h6M9 16h4"/></svg></div>
+16h4"/></svg></div>
         <div class="res-card-tag" style="color:#185FA5;">Comparing options</div>
         <div class="res-card-title">What to look for in a roofing bid</div>
         <div class="res-card-desc">Red flags, green flags, and what separates a real bid from a cheap one.</div>
