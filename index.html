@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="apple-mobile-web-app-capable" content="yes">
+<!-- pwa already -->
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="RR Sales">
 <title>Resilient Roofing</title>
@@ -495,9 +495,24 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
 .upgrade-item.pulse{animation:upgradePop .5s ease .2s both;}
 
 
+
+/* Preload indicator */
+#preload-bar{position:fixed;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#2d6be4,#60a5fa,#2d6be4);background-size:200% 100%;animation:preloadAnim 1.5s linear infinite;z-index:99999;transition:opacity .5s;}
+#preload-bar.done{opacity:0;pointer-events:none;}
+@keyframes preloadAnim{0%{background-position:200% 0}100%{background-position:0 0}}
+#preload-status{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.7);color:rgba(255,255,255,0.6);font-size:11px;padding:6px 14px;border-radius:20px;z-index:99999;transition:opacity .5s;white-space:nowrap;}
+#preload-status.done{opacity:0;pointer-events:none;}
 </style>
+<link rel="manifest" href="/manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="RR Prezzy">
+<link rel="apple-touch-icon" href="/icon-192.png">
+<meta name="theme-color" content="#1a3a6b">
 </head>
 <body>
+<div id="preload-bar"></div>
+<div id="preload-status">Loading scope presentations...</div>
 <div id="app">
 
 <!-- FULL APP VIDEO OVERLAY -->
@@ -773,16 +788,16 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
 
 <!-- SHINGLE SCOPE -->
 <div id="s-scope-shingle" class="screen">
-  <iframe id="scope-iframe" style="width:100%;height:100%;border:none;background:#0a0f1a;" src="rr-scope-shingle-v2.html" allow="autoplay"></iframe>
+  <iframe id="scope-iframe" style="width:100%;height:100%;border:none;background:#0a0f1a;" allow="autoplay"></iframe>
 </div>
 <!-- SHINGLE SCOPE -->
 <div id="s-scope-shingle" class="screen">
-  <iframe id="scope-iframe" style="width:100%;height:100%;border:none;background:#0a0f1a;" src="rr-scope-shingle-v2.html" allow="autoplay"></iframe>
+  <iframe id="scope-iframe" style="width:100%;height:100%;border:none;background:#0a0f1a;" allow="autoplay"></iframe>
 </div>
 
 <!-- SHINGLE+TPO SCOPE -->
 <div id="s-scope-shingle-tpo" class="screen">
-  <iframe id="scope-iframe-tpo" style="width:100%;height:100%;border:none;background:#0a0f1a;" src="rr-scope-shingle-tpo.html" allow="autoplay"></iframe>
+  <iframe id="scope-iframe-tpo" style="width:100%;height:100%;border:none;background:#0a0f1a;" allow="autoplay"></iframe>
 </div>
 
 <!-- BUILDER -->
@@ -1240,15 +1255,37 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
                   <div class="insulation-tier" id="ins-tier-premium" onclick="selectInsulationTier('premium')" style="background:var(--bg2);border:2px solid var(--border2);border-radius:10px;padding:12px 14px;cursor:pointer;">
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
                       <div style="font-size:15px;font-weight:700;color:var(--text);">Premium</div>
-                      <div style="font-size:14px;font-weight:700;color:#4a7fb5;" id="ins-price-premium">—</div>
-                    </div>
-                    <div style="font-size:12px;color:var(--text3);line-height:1.5;">Removal, vacuum, sanitize, rodent proof, quality control, air seal, R-38 fiberglass attic floor</div>
-                  </div>
-                  <div class="insulation-tier" id="ins-tier-gold" onclick="selectInsulationTier('gold')" style="background:var(--bg2);border:2px solid var(--border2);border-radius:10px;padding:12px 14px;cursor:pointer;">
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-                      <div style="font-size:15px;font-weight:700;color:var(--text);">Gold</div>
-                      <div style="font-size:14px;font-
-<script>
+                      <div style="font-size:14px;font-weight:700;color:#4a
+function preloadScopeFiles(){
+  const files = ['rr-scope-shingle-v2.html','rr-scope-shingle-tpo.html'];
+  let loaded = 0;
+  const bar = document.getElementById('preload-bar');
+  const status = document.getElementById('preload-status');
+  
+  files.forEach(function(src){
+    const link = document.createElement('link');
+    link.rel = 'prefetch';
+    link.href = src;
+    link.onload = link.onerror = function(){
+      loaded++;
+      if(loaded >= files.length){
+        if(bar){bar.classList.add('done');}
+        if(status){status.classList.add('done');}
+        setTimeout(function(){
+          if(bar)bar.style.display='none';
+          if(status)status.style.display='none';
+        }, 600);
+      }
+    };
+    document.head.appendChild(link);
+  });
+  
+  // Fallback: hide after 8 seconds regardless
+  setTimeout(function(){
+    if(bar){bar.classList.add('done');}
+    if(status){status.classList.add('done');}
+  }, 8000);
+}
 function goToSummaryFromScope(){
   visiblePrices.forEach(p=>refreshPitchFromSetup(p));
   renderSummary();
@@ -1257,13 +1294,14 @@ function goToSummaryFromScope(){
 
 function goToScopeShingleTpo(){
   show('s-scope-shingle-tpo');
+  const iframe=document.getElementById('scope-iframe-tpo');
+  if(iframe&&!iframe.src){iframe.src='rr-scope-shingle-tpo.html';}
   const p=currentPrice||'p1';
   const pre=setupUpgrades[p]||new Set();
   const scope=SCOPES['shingle_tpo'];
   const customLabel=document.getElementById('label-'+p)?.value?.trim()||'';
   const selectedUpgrades=(scope?.upgrades||[]).filter(u=>pre.has(u.id)).map(u=>({id:u.id,name:u.name}));
   const msg={type:'scopeInit',title:customLabel||'Shingle + TPO Roof',upgrades:selectedUpgrades};
-  const iframe=document.getElementById('scope-iframe-tpo');
   try{iframe.contentWindow.postMessage(msg,'*');}catch(e){}
   iframe.onload=function(){try{iframe.contentWindow.postMessage(msg,'*');}catch(e){}};
 }
@@ -1405,13 +1443,14 @@ function buildSettingsRows(){
 
 function goToScopeShingle(){
   show('s-scope-shingle');
+  const iframe=document.getElementById('scope-iframe');
+  if(iframe&&!iframe.src){iframe.src='rr-scope-shingle-v2.html';}
   const p=currentPrice||'p1';
   const pre=setupUpgrades[p]||new Set();
   const scope=SCOPES['shingle'];
   const customLabel=document.getElementById('label-'+p)?.value?.trim()||'';
   const selectedUpgrades=(scope?.upgrades||[]).filter(u=>pre.has(u.id)).map(u=>({id:u.id,name:u.name}));
   const msg={type:'scopeInit',title:customLabel||'Shingle Roof',upgrades:selectedUpgrades};
-  const iframe=document.getElementById('scope-iframe');
   try{iframe.contentWindow.postMessage(msg,'*');}catch(e){}
   iframe.onload=function(){try{iframe.contentWindow.postMessage(msg,'*');}catch(e){}};
 }
@@ -3096,6 +3135,33 @@ document.addEventListener('click', function(e){
 });
 
 
+preloadScopeFiles();
+List.add('open');
+  if(name==='roi'){roiTab=1;setRoiTab(1);}
+  if(name==='repairs'){repOptIdx=0;repLoanIdx=3;initRepairs();}
+  if(name==='financing'){initFinancing();}
+}
+function closeGuide(name){
+  const g=document.getElementById('guide-'+name);
+  if(g)g.classList.remove('open');
+}
+
+function closeFinancingModal(){
+  const panel=document.getElementById('guide-financing');
+  if(panel)panel.classList.remove('open');
+}
+
+try{localStorage.removeItem("rr_pitchstate");}catch(e){}
+// Click delegation for scope item editing
+document.addEventListener('click', function(e){
+  const el = e.target.closest('.editable-item');
+  if(!el) return;
+  const p = el.dataset.editP;
+  const ii = parseInt(el.dataset.editIi);
+  if(p !== undefined && !isNaN(ii)) openScopeEdit(p, ii);
+});
+
+
 </script>
 </div>
 <!-- RESOURCES SLIDE-UP PANEL -->
@@ -3476,6 +3542,18 @@ document.addEventListener('click', function(e){
   </div>
 </div>
 
+
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('/sw.js').then(function(reg){
+      console.log('SW registered:', reg.scope);
+    }).catch(function(err){
+      console.log('SW failed:', err);
+    });
+  });
+}
+</script>
 </body>
 </html
 >
