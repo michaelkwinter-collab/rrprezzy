@@ -1243,9 +1243,7 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-const TYPE_LABELS={shingle:"Shingle",stone_coated:"Stone Coated Steel",new_tile:"New Concrete Tile",tile_relay:"Tile Relay",tpo:"TPO",silicone:"Silicone Coating",repairs:"Repairs / Misc",shingle_tpo:"Shingle + TPO",stone_coated_tpo:"Stone Coated + TPO",new_tile_tpo:"New Concrete Tile + TPO",tile_relay_tpo:"Tile Relay + TPO"};
-const IC=["#dbeafe","#dcfce7","#fef9c3","#fce7f3","#ede9fe","#ffedd5","#e0f2fe","#fef3c7","#fdf2f8","#d1fae5"];
-const TPO_80={id:"tpo_80mil",name:"TPO — JM 80 mil (25yr)",sub:"JM 80 Mil TPO — 25-year warranty",icon:"\u{1F3E2}",desc:"Premium JM 80 Mil TPO system — ISO foam board, JM 80 Mil TPO membrane, CLAD edge metal and flashings. 25-year manufacturer warranty.",pts:["1/2\u201D ISO foam board insulation","JM 80 Mil TPO membrane","TPO CLAD edge
+
 const TYPE_LABELS={shingle:"Shingle",stone_coated:"Stone Coated Steel",new_tile:"New Concrete Tile",tile_relay:"Tile Relay",tpo:"TPO",silicone:"Silicone Coating",repairs:"Repairs / Misc",shingle_tpo:"Shingle + TPO",stone_coated_tpo:"Stone Coated + TPO",new_tile_tpo:"New Concrete Tile + TPO",tile_relay_tpo:"Tile Relay + TPO"};
 const IC=["#dbeafe","#dcfce7","#fef9c3","#fce7f3","#ede9fe","#ffedd5","#e0f2fe","#fef3c7","#fdf2f8","#d1fae5"];
 const TPO_80={id:"tpo_80mil",name:"TPO — JM 80 mil (25yr)",sub:"JM 80 Mil TPO — 25-year warranty",icon:"\u{1F3E2}",desc:"Premium JM 80 Mil TPO system — ISO foam board, JM 80 Mil TPO membrane, CLAD edge metal and flashings. 25-year manufacturer warranty.",pts:["1/2\u201D ISO foam board insulation","JM 80 Mil TPO membrane","TPO CLAD edge metal & flashings","10-yr workmanship + 25-yr manufacturer warranty"]};
@@ -1315,7 +1313,7 @@ function onScopeChange(p){
   setupUpgrades[p]=new Set();
   renderSetupUpgrades(p);
   updateDefaultLabels();
-  const t=document.getElementById('type-'+p)?.value||'shingle';
+  const t=document.getElementById('type-'+p)?.value||'';
   const rf=document.getElementById('repair-fields-'+p);
   if(rf)rf.classList.toggle('show',t==='repairs');
   syncCards();
@@ -1324,10 +1322,12 @@ function onScopeChange(p){
 function updateDefaultLabels(){}
 
 function renderSetupUpgrades(p){
-  const type = document.getElementById('type-'+p)?.value||'shingle';
-  const scope = SCOPES[type];
+  const type = document.getElementById('type-'+p)?.value||'';
   const container = document.getElementById('upgrades-'+p);
-  if(!container||!scope) return;
+  if(!container) return;
+  if(!type){container.innerHTML='';return;}
+  const scope = SCOPES[type];
+  if(!scope){container.innerHTML='';return;}
   const upgrades = scope.upgrades||[];
   if(upgrades.length===0){container.innerHTML='';return;}
   if(!setupUpgrades[p]) setupUpgrades[p]=new Set();
@@ -2976,7 +2976,72 @@ document.addEventListener('click', function(e){
   const p = el.dataset.editP;
   const ii = parseInt(el.dataset.editIi);
   if(p !== undefined && !isNaN(ii)) openScopeEdit(p, ii);
+
+
+function openShareModal(){
+  document.getElementById("share-modal-bg").classList.add("show");
+}
+
+function closeShareModal(){
+  const m=document.getElementById("share-modal-bg");
+  if(m){m.classList.remove("show");m.style.display="none";}
+}
+
+async function generateAndShare(){
+  const btn=document.getElementById("share-btn");
+  const txt=document.getElementById("share-btn-txt");
+  btn.disabled=true;
+  txt.innerHTML='<div class="share-spinner"></div> Generating...';
+  const preview=document.getElementById("share-preview");
+  preview.innerHTML=buildPreviewHTML();
+  try{
+    const canvas=await html2canvas(preview.firstElementChild,{
+      scale:2,backgroundColor:"#ffffff",useCORS:true,width:390,windowWidth:390
+    });
+    canvas.toBlob(async function(blob){
+      const file=new File([blob],"resilient-roofing-summary.png",{type:"image/png"});
+      const customer=document.getElementById("customer-name")?.value||"";
+      const followupDate=document.getElementById("followup-date")?.value;
+      const followupNote=document.getElementById("followup-note")?.value;
+      let shareText="Hi"+(customer?" "+customer.split(" ")[0]:"")+"! Here\u2019s your personalized roofing summary from Resilient Roofing.";
+      if(followupDate){
+        const d=new Date(followupDate+"T12:00:00");
+        const dateLabel=d.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"});
+        shareText+=" I\u2019ll follow up with you on "+dateLabel+(followupNote?" \u2014 "+followupNote:"")+".";
+      }
+      shareText+="\n\nIf you\u2019d like to compare your quotes before deciding, you\u2019re welcome to book a quick Proposal Review with our manager: https://bookings.cloud.microsoft/bookwithme/user/7ca930bbb708498096f84cb0efd88e14%40resilientroofing.com/meetingtype/sLjgcNB3_U27iRyhh2siIw2?anonymous&ismsaljsauthenabled";
+      if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
+        await navigator.share({files:[file],text:shareText});
+      } else {
+        const url=URL.createObjectURL(blob);
+        const a=document.createElement("a");
+        a.href=url;a.download="resilient-roofing-summary.png";a.click();
+        URL.revokeObjectURL(url);
+      }
+      btn.disabled=false;
+      txt.innerHTML="Generate &amp; Share";
+      closeShareModal();
+      // Generate calendar reminder if date was set
+      const followupTime=document.getElementById("followup-time")?.value||"10:00";
+      if(followupDate){
+        const custName=document.getElementById("customer-name")?.value||"Client";
+        const note=document.getElementById("followup-note")?.value||"Follow up on roofing proposal";
+        const repName2=document.getElementById("rep-name")?.value||"";
+        createCalendarReminder(followupDate, followupTime, custName, note, repName2);
+      }
+    },"image/png");
+  }catch(e){
+    console.error(e);
+    btn.disabled=false;
+    txt.innerHTML="Generate &amp; Share";
+  }
+}
+
 });
+
+
+
+</script>
 
 
 16h4"/></svg></div>
@@ -3346,7 +3411,6 @@ document.addEventListener('click', function(e){
   </div>
 </div>
 
+
 </body>
-</html
->
 </html>
