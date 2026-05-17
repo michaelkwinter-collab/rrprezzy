@@ -2304,20 +2304,26 @@ function backFromAddons(){
 
 function goToSummaryFromAddons(){
   saveAddonState(currentPrice);
-  // Only update addon data — preserve scope/upgrades/price already set
+  const{total:addonTotal,lines:addonLines}=calcAddons();
+  // If pitchData already exists, just update addon data
   if(pitchData[currentPrice]){
-    const{total:addonTotal,lines:addonLines}=calcAddons();
     pitchData[currentPrice].addonTotal=addonTotal;
     pitchData[currentPrice].addonLines=addonLines;
-    renderSummary();
-    show("s-summary");
-    document.getElementById("summary-body").scrollTop=0;
-    const customer=document.getElementById("customer-name")?.value||"";
-    const el=document.getElementById("footer-customer-summary");
-    if(el)el.textContent=customer||"Client";
   } else {
-    goToSummary();
+    // Coming straight from scope — build pitchData entry first
+    savePitchData();
+    if(pitchData[currentPrice]){
+      pitchData[currentPrice].addonTotal=addonTotal;
+      pitchData[currentPrice].addonLines=addonLines;
+    }
   }
+  if(!visiblePrices.includes(currentPrice))visiblePrices.push(currentPrice);
+  renderSummary();
+  show("s-summary");
+  document.getElementById("summary-body").scrollTop=0;
+  const customer=document.getElementById("customer-name")?.value||"";
+  const el=document.getElementById("footer-customer-summary");
+  if(el)el.textContent=customer||"Client";
 }
 
 
