@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <!-- pwa already -->
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="RR Sales">
 <title>Resilient Roofing</title>
 <style>
 :root{--bg:#fff;--bg2:#f5f5f7;--bg3:#e8e8ea;--text:#1a1a1a;--text2:#555;--text3:#999;--border:rgba(0,0,0,0.1);--border2:rgba(0,0,0,0.2);--navy:#1a3a6b;--navy-light:#eef3fc;--r:12px;--rlg:18px;}
@@ -495,15 +493,10 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
 .upgrade-item.pulse{animation:upgradePop .5s ease .2s both;}
 
 
-
-
+100%{background-position:0 0}}
+#preload-status{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.7);color:rgba(255,255,255,0.6);font-size:11px;padding:6px 14px;border-radius:20px;z-index:99999;transition:opacity .5s;white-space:nowrap;}
+#preload-status.done{opacity:0;pointer-events:none;}
 </style>
-<link rel="manifest" href="/manifest.json">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="RR Prezzy">
-<link rel="apple-touch-icon" href="/icon-192.png">
-<meta name="theme-color" content="#1a3a6b">
 </head>
 <body>
 <div id="app">
@@ -1249,7 +1242,13 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
                       <div style="font-size:15px;font-weight:700;color:var(--text);">Premium</div>
                       <div style="font-size:14px;font-weight:700;color:#4a
-
+  let loaded=0;
+  files.forEach(function(src){
+    fetch(src).then(function(){loaded++;if(loaded>=files.length)done();})
+             .catch(function(){loaded++;if(loaded>=files.length)done();});
+  });
+  setTimeout(done,15000);
+}
 function goToSummaryFromScope(){
   visiblePrices.forEach(p=>refreshPitchFromSetup(p));
   renderSummary();
@@ -3505,18 +3504,6 @@ document.addEventListener('click', function(e){
   </div>
 </div>
 
-
-<script>
-if('serviceWorker' in navigator){
-  window.addEventListener('load', function(){
-    navigator.serviceWorker.register('/sw.js').then(function(reg){
-      console.log('SW registered:', reg.scope);
-    }).catch(function(err){
-      console.log('SW failed:', err);
-    });
-  });
-}
-</script>
 </body>
 </html
 >
