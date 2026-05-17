@@ -13,11 +13,11 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
 /* LEFT PANEL */
 .layer-panel{width:200px;flex-shrink:0;background:rgba(0,0,0,0.4);border-right:0.5px solid rgba(255,255,255,0.07);display:flex;flex-direction:column;overflow:hidden;}
 
-.panel-section{padding:10px 10px 4px;font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,0.2);}
+.panel-section{padding:10px 10px 4px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,0.25);}
 
 /* Step pills */
 .step-list{padding:0 8px;display:flex;flex-direction:column;gap:5px;flex:1;justify-content:center;}
-.step-pill{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:10px;cursor:pointer;transition:all .25s;border:1px solid transparent;-webkit-user-select:none;user-select:none;}
+.step-pill{display:flex;align-items:center;gap:9px;padding:10px 11px;border-radius:10px;cursor:pointer;transition:all .25s;border:1px solid transparent;-webkit-user-select:none;user-select:none;}
 .step-pill:active{opacity:0.7;}
 .step-pill.past{background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.07);}
 .step-pill.active{background:rgba(26,58,107,0.45);border-color:rgba(96,165,250,0.5);box-shadow:0 0 14px rgba(45,107,228,0.2);}
@@ -26,8 +26,8 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
 .step-pill.past .step-dot{background:#4ade80;}
 .step-pill.active .step-dot{background:#60a5fa;box-shadow:0 0 5px #60a5fa;}
 .step-pill.future .step-dot{background:rgba(255,255,255,0.15);}
-.step-name{font-size:12px;font-weight:600;color:rgba(255,255,255,0.4);line-height:1.3;transition:color .25s;}
-.step-pill.past .step-name{color:rgba(255,255,255,0.6);}
+.step-name{font-size:15px;font-weight:600;color:rgba(255,255,255,0.4);line-height:1.3;transition:color .25s;}
+.step-pill.past .step-name{color:rgba(255,255,255,0.65);}
 .step-pill.active .step-name{color:#fff;}
 
 /* Divider */
@@ -37,11 +37,11 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
 .upgrade-list{padding:0 8px 14px;display:flex;flex-direction:column;gap:5px;}
 .upgrade-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:9px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);transition:all .4s;position:relative;overflow:hidden;}
 .upgrade-item.pulse{background:rgba(232,119,34,0.15);border-color:rgba(232,119,34,0.5);box-shadow:0 0 16px rgba(232,119,34,0.2);}
-.upgrade-icon{font-size:14px;flex-shrink:0;transition:transform .3s;}
+.upgrade-icon{font-size:18px;flex-shrink:0;transition:transform .3s;}
 .upgrade-item.pulse .upgrade-icon{transform:scale(1.2);}
-.upgrade-name{font-size:11px;font-weight:600;color:rgba(255,255,255,0.35);line-height:1.3;transition:color .3s;}
-.upgrade-item.pulse .upgrade-name{color:#fff;}
-.upgrade-badge{position:absolute;top:5px;right:6px;font-size:8px;font-weight:800;color:#E87722;opacity:0;transition:opacity .3s;letter-spacing:.04em;}
+.upgrade-name{font-size:14px;font-weight:600;color:rgba(255,255,255,0.35);line-height:1.3;transition:color .3s;}
+.upgrade-item.pulse .upgrade-name{color:#fff;font-size:14px;}
+.upgrade-badge{position:absolute;top:5px;right:6px;font-size:9px;font-weight:800;color:#E87722;opacity:0;transition:opacity .3s;letter-spacing:.04em;}
 .upgrade-item.pulse .upgrade-badge{opacity:1;}
 
 /* IMAGE AREA */
@@ -109,13 +109,15 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
     </div>
   </div>
 
-  <div class="nav">
-    <button class="nbtn back" id="btn-back" onclick="nav(-1)" disabled>← Back</button>
-    <div class="nav-mid">
+  <div class="nav" style="justify-content:space-between;padding:0 20px;">
+    <div style="display:flex;align-items:center;">
       <div class="dots" id="dots"></div>
-      <div class="nav-hint">tap a step or use next</div>
     </div>
-    <button class="nbtn next" id="btn-next" onclick="nav(1)">Start →</button>
+    <div style="display:flex;gap:8px;">
+      <button onclick="window.parent.goToAddonsFor(window.parent.currentPrice||'p1')" style="padding:10px 18px;border-radius:30px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.7);font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">Add-Ons</button>
+      <button onclick="window.parent.goToSummaryFromScope()" style="padding:10px 18px;border-radius:30px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.7);font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">Summary</button>
+      <button onclick="window.parent.show('s-setup')" style="padding:10px 18px;border-radius:30px;border:none;background:#1a3a6b;color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">&#9998; Setup</button>
+    </div>
   </div>
 </div>
 
@@ -137,7 +139,7 @@ const UPGRADES = [
   {name:'Platinum Warranty',icon:'🏆',step:5},
 ];
 
-let cur = 0;
+let scCur = 0;
 
 // Build slides
 const area = document.getElementById('image-area');
@@ -177,19 +179,19 @@ UPGRADES.forEach((u,i) => {
 });
 
 function render() {
-  const L = LAYERS[cur];
+  const L = LAYERS[scCur];
 
   // Slides
   LAYERS.forEach((_,i) => {
-    document.getElementById('slide'+i).className = 'slide'+(i===cur?' visible':'');
+    document.getElementById('slide'+i).className = 'slide'+(i===scCur?' visible':'');
   });
 
   // Label
-  const activeUpgrades = UPGRADES.filter(u => u.step === cur);
+  const activeUpgrades = UPGRADES.filter(u => u.step === scCur);
   const hasUpgrade = activeUpgrades.length > 0;
 
   labelBox.className = 'label-box' + (hasUpgrade?' upgrade-step':'');
-  document.getElementById('lbl-step').textContent = `Step ${cur+1} of ${LAYERS.length}`;
+  document.getElementById('lbl-step').textContent = `Step ${scCur+1} of ${LAYERS.length}`;
   document.getElementById('lbl-name').textContent = L.name;
   document.getElementById('lbl-desc').textContent = L.desc;
 
@@ -205,15 +207,15 @@ function render() {
   LAYERS.forEach((_,i) => {
     const el = document.getElementById('step-pill-'+i);
     if(!el) return;
-    el.className = 'step-pill ' + (i<cur?'past':i===cur?'active':'future');
+    el.className = 'step-pill ' + (i<scCur?'past':i===scCur?'active':'future');
   });
 
   // Upgrade items — pulse the ones for this step
   UPGRADES.forEach((u,i) => {
     const el = document.getElementById('upg-'+i);
-    if(u.step === cur) {
+    if(u.step === scCur) {
       el.className = 'upgrade-item pulse';
-    } else if(u.step < cur) {
+    } else if(u.step < scCur) {
       el.className = 'upgrade-item past';
       el.style.opacity = '0.5';
     } else {
@@ -224,18 +226,18 @@ function render() {
 
   // Dots
   document.getElementById('dots').innerHTML = LAYERS.map((_,i) =>
-    `<div class="dot ${i<cur?'past':i===cur?'active':''}"></div>`
+    `<div class="dot ${i<scCur?'past':i===scCur?'active':''}"></div>`
   ).join('');
 
   // Nav buttons
-  document.getElementById('btn-back').disabled = cur <= 0;
-  const btn = document.getElementById('btn-next');
-  btn.textContent = cur >= LAYERS.length-1 ? 'Done ✓' : 'Next →';
-  btn.className = 'nbtn next' + (cur>=LAYERS.length-1?' done':'');
+  const backBtn=document.getElementById('btn-back');if(backBtn)backBtn.disabled=scCur<=0;
+  const btn = document.getElementById('btn-next');if(!btn)return;
+  btn.textContent = scCur >= LAYERS.length-1 ? 'Done ✓' : 'Next →';
+  btn.className = 'nbtn next' + (scCur>=LAYERS.length-1?' done':'');
 }
 
-function jumpTo(i) { if(i>=0&&i<LAYERS.length){cur=i;render();} }
-function nav(d) { jumpTo(cur+d); }
+function jumpTo(i) { if(i>=0&&i<LAYERS.length){scCur=i;render();} }
+function nav(d) { jumpTo(scCur+d); }
 
 render();
 </script>
