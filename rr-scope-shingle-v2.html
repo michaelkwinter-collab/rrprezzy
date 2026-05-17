@@ -97,20 +97,18 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
 
     <!-- IMAGE AREA -->
     <div style="display:flex;flex-direction:column;flex:1;min-height:0;">
-      <div id="pitch-title" style="text-align:center;padding:12px 20px 2px;font-size:24px;font-weight:700;color:#fff;letter-spacing:-0.3px;flex-shrink:0;"></div>
+      <div id="pitch-title" style="text-align:center;padding:10px 20px 0;font-size:22px;font-weight:700;color:#fff;letter-spacing:-0.3px;flex-shrink:0;"></div>
       <div class="image-area" id="image-area" style="flex:1;">
-      <div class="upgrade-callout" id="upgrade-callout">
-        <div class="uc-label">Upgrade Highlight</div>
-        <div class="uc-name" id="uc-name"></div>
+        <div class="upgrade-callout" id="upgrade-callout">
+          <div class="uc-label">Upgrade Highlight</div>
+          <div class="uc-name" id="uc-name"></div>
+        </div>
+        <div class="label-box" id="label-box">
+          <div class="label-step" id="lbl-step"></div>
+          <div class="label-name" id="lbl-name"></div>
+          <div class="label-desc" id="lbl-desc"></div>
+        </div>
       </div>
-      <div class="label-box" id="label-box">
-        <div class="label-step" id="lbl-step"></div>
-        <div class="label-name" id="lbl-name"></div>
-        <div class="label-desc" id="lbl-desc"></div>
-      </div>
-    </div>
-  </div>
-
     </div>
   </div>
   <div class="nav" style="justify-content:space-between;padding:0 20px;">
@@ -137,11 +135,33 @@ const LAYERS = [
 
 const CORE = ['Full tear-off & inspection', 'Ice & water shield — valley', 'Synthetic underlayment', 'All new metal flashings', 'Starter strip', 'Architectural shingles', 'Hip & ridge caps', '10-yr workmanship warranty'];
 
-const UPGRADES = [
-  {name:'Multiple Layers Tear-Off',icon:'⚡',step:0},
-  {name:'Build Crickets',icon:'🔺',step:4},
-  {name:'Platinum Warranty',icon:'🏆',step:5},
-];
+// Build upgrades dynamically from parent app selections
+let UPGRADES = [];
+(function(){
+  try{
+    const p=window.parent.currentPrice||'p1';
+    const pre=window.parent.setupUpgrades?.[p]||new Set();
+    const scope=window.parent.SCOPES?.['shingle'];
+    const stepMap={
+      'multi_layer':0,'multiple_layers':0,'tearoff':0,
+      'udl50':3,'psu30':3,'titanium':3,
+      'crickets':4,'build_crickets':4,'coping_metal':4,
+      'oc_platinum':5,'solar_protect':5,'thermasheet':5,
+    };
+    const icons={'multi_layer':'⚡','multiple_layers':'⚡','tearoff':'⚡',
+      'udl50':'🛡','psu30':'🛡','titanium':'🛡',
+      'crickets':'🔺','build_crickets':'🔺','coping_metal':'🔺',
+      'oc_platinum':'🏆','solar_protect':'🏆','thermasheet':'🏆',
+    };
+    (scope?.upgrades||[]).forEach(u=>{
+      if(!pre.has(u.id))return;
+      UPGRADES.push({name:u.name,icon:icons[u.id]||'★',step:stepMap[u.id]??5});
+    });
+  }catch(e){
+    // Fallback if parent not accessible
+    UPGRADES=[];
+  }
+})();
 
 let scCur = 0;
 
@@ -174,12 +194,10 @@ LAYERS.forEach((L,i) => {
 (function(){
   try{
     const p=window.parent.currentPrice||'p1';
-    const labelEl=window.parent.document.getElementById('label-'+p);
-    const typeEl=window.parent.document.getElementById('type-'+p);
-    const label=labelEl?.value?.trim();
-    const typeName=typeEl?.options[typeEl.selectedIndex]?.text||'';
+    // Custom label the rep typed (e.g. "Premium Package")
+    const customLabel=window.parent.document.getElementById('label-'+p)?.value?.trim();
     const el=document.getElementById('pitch-title');
-    if(el) el.textContent=label||typeName||'';
+    if(el) el.textContent=customLabel||'Shingle Roof';
   }catch(e){}
 })();
 
