@@ -1340,8 +1340,10 @@ function updateDefaultLabels(){
   const seen = {};
   ['p1','p2','p3'].forEach((p,i)=>{
     const labelEl = document.getElementById('label-'+p);
+    // Only auto-fill if rep hasn't typed anything custom
     if(!labelEl || labelEl.dataset.edited) return;
     const t = types[i];
+    if(!t) return; // no type selected yet
     const typeName = TYPE_LABELS[t]||t;
     if(counts[t]>1){
       seen[t]=(seen[t]||0)+1;
@@ -1378,6 +1380,13 @@ function toggleSetupUpgrade(p, id, el){
 }
 
 function initSetupUpgrades(){
+  // Mark label fields as edited when rep types in them
+  ['p1','p2','p3'].forEach(p=>{
+    const el=document.getElementById('label-'+p);
+    if(el){
+      el.addEventListener('input',function(){this.dataset.edited='1';});
+    }
+  });
   ['p1','p2','p3'].forEach(p=>{
     setupUpgrades[p]=new Set();
     renderSetupUpgrades(p);
@@ -1416,6 +1425,25 @@ function goToSummaryFromScope(){
 
 function goToScopeShingle(){
   show('s-scope-shingle');
+  // Send pitch data to iframe via postMessage
+  const p = currentPrice || 'p1';
+  const pre = setupUpgrades[p] || new Set();
+  const scope = SCOPES['shingle'];
+  const customLabel = document.getElementById('label-'+p)?.value?.trim() || '';
+  const selectedUpgrades = (scope?.upgrades||[])
+    .filter(u => pre.has(u.id))
+    .map(u => ({id:u.id, name:u.name}));
+  const msg = {
+    type: 'scopeInit',
+    title: customLabel || 'Shingle Roof',
+    upgrades: selectedUpgrades
+  };
+  const iframe = document.getElementById('scope-iframe');
+  // Send immediately and also after load (in case iframe not ready yet)
+  try{ iframe.contentWindow.postMessage(msg,'*'); }catch(e){}
+  iframe.onload = function(){
+    try{ iframe.contentWindow.postMessage(msg,'*'); }catch(e){}
+  };
 }
 
 function goToBuilder(){
@@ -1872,8 +1900,10 @@ function resetSummary(){
   pitchData={};visiblePrices=[];sel={};coreOpen=false;coreShown=false;
   // Reset dropdowns to "Select Roof Type"
   ['p1','p2','p3'].forEach(p=>{
-    const el=document.getElementById('type-'+p);
-    if(el)el.value='';
+    const typeEl=document.getElementById('type-'+p);
+    if(typeEl)typeEl.value='';
+    const labelEl=document.getElementById('label-'+p);
+    if(labelEl){labelEl.value='';delete labelEl.dataset.edited;}
   });
   addonActive={};gutterSize=5;
   ['gutters','painting','solar','skylight','solar_fan','insulation','woodcredit','misc','misc2','misc3'].forEach(id=>{
