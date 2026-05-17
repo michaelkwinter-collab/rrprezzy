@@ -13,8 +13,8 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif;background:var(--bg3);color:var(--text);}
 #app{height:100%;display:flex;flex-direction:column;}
-.screen{display:none;flex-direction:column;height:100%;overflow:hidden;}.screen.active{overflow:hidden;}
-.screen.active{display:flex;}
+.screen{display:none!important;flex-direction:column;height:100%;overflow:hidden;}.screen.active{overflow:hidden;}
+.screen.active{display:flex!important;}
 
 /* TOPBAR */
 .topbar{background:var(--navy);padding:0 22px;height:70px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;padding-top:env(safe-area-inset-top);}
@@ -2988,130 +2988,6 @@ document.addEventListener('click', function(e){
   if(p !== undefined && !isNaN(ii)) openScopeEdit(p, ii);
 });
 
-
-
-const SCOPE_HTML=`<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<style>
-*{box-sizing:border-box;margin:0;padding:0;}
-html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSystemFont,sans-serif;overflow:hidden;}
-#app{display:flex;flex-direction:column;height:100%;}
-
-.stage{flex:1;display:flex;align-items:stretch;overflow:hidden;min-height:0;}
-
-/* LEFT PANEL */
-.layer-panel{width:200px;flex-shrink:0;background:rgba(0,0,0,0.4);border-right:0.5px solid rgba(255,255,255,0.07);display:flex;flex-direction:column;overflow:hidden;}
-
-.panel-section{padding:10px 10px 4px;font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,0.2);}
-
-/* Step pills */
-.step-list{padding:0 8px;display:flex;flex-direction:column;gap:5px;flex:1;justify-content:center;}
-.step-pill{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:10px;cursor:pointer;transition:all .25s;border:1px solid transparent;-webkit-user-select:none;user-select:none;}
-.step-pill:active{opacity:0.7;}
-.step-pill.past{background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.07);}
-.step-pill.active{background:rgba(26,58,107,0.45);border-color:rgba(96,165,250,0.5);box-shadow:0 0 14px rgba(45,107,228,0.2);}
-.step-pill.future{opacity:0.3;}
-.step-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;transition:all .25s;}
-.step-pill.past .step-dot{background:#4ade80;}
-.step-pill.active .step-dot{background:#60a5fa;box-shadow:0 0 5px #60a5fa;}
-.step-pill.future .step-dot{background:rgba(255,255,255,0.15);}
-.step-name{font-size:12px;font-weight:600;color:rgba(255,255,255,0.4);line-height:1.3;transition:color .25s;}
-.step-pill.past .step-name{color:rgba(255,255,255,0.6);}
-.step-pill.active .step-name{color:#fff;}
-
-/* Divider */
-.panel-divider{height:0.5px;background:rgba(255,255,255,0.08);margin:6px 10px;}
-
-/* Upgrade items */
-.upgrade-list{padding:0 8px 14px;display:flex;flex-direction:column;gap:5px;}
-.upgrade-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:9px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);transition:all .4s;position:relative;overflow:hidden;}
-.upgrade-item.pulse{background:rgba(232,119,34,0.15);border-color:rgba(232,119,34,0.5);box-shadow:0 0 16px rgba(232,119,34,0.2);}
-.upgrade-icon{font-size:14px;flex-shrink:0;transition:transform .3s;}
-.upgrade-item.pulse .upgrade-icon{transform:scale(1.2);}
-.upgrade-name{font-size:11px;font-weight:600;color:rgba(255,255,255,0.35);line-height:1.3;transition:color .3s;}
-.upgrade-item.pulse .upgrade-name{color:#fff;}
-.upgrade-badge{position:absolute;top:5px;right:6px;font-size:8px;font-weight:800;color:#E87722;opacity:0;transition:opacity .3s;letter-spacing:.04em;}
-.upgrade-item.pulse .upgrade-badge{opacity:1;}
-
-/* IMAGE AREA */
-.image-area{flex:1;position:relative;overflow:hidden;background:#0a0f1a;display:flex;align-items:center;justify-content:center;}
-.slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .5s ease;pointer-events:none;}
-.slide.visible{opacity:1;pointer-events:auto;}
-.slide img{max-width:90%;max-height:90%;object-fit:contain;border-radius:14px;box-shadow:0 24px 70px rgba(0,0,0,0.6);}
-
-/* LABEL */
-.label-box{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);background:rgba(8,14,28,0.9);border:1px solid rgba(96,165,250,0.2);border-radius:12px;padding:10px 20px;text-align:center;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);white-space:nowrap;transition:all .3s;}
-.label-box.upgrade-step{border-color:rgba(232,119,34,0.5);background:rgba(30,18,8,0.92);}
-.label-step{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(96,165,250,0.6);margin-bottom:2px;}
-.label-box.upgrade-step .label-step{color:rgba(232,119,34,0.8);}
-.label-name{font-size:16px;font-weight:700;color:#fff;}
-.label-desc{font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px;}
-
-/* UPGRADE CALLOUT — appears when upgrade step active */
-.upgrade-callout{position:absolute;top:16px;right:16px;background:rgba(232,119,34,0.15);border:1px solid rgba(232,119,34,0.4);border-radius:10px;padding:8px 14px;opacity:0;transform:translateY(-6px);transition:all .4s;pointer-events:none;}
-.upgrade-callout.show{opacity:1;transform:translateY(0);}
-.uc-label{font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#E87722;margin-bottom:2px;}
-.uc-name{font-size:13px;font-weight:700;color:#fff;}
-
-/* NAV */
-.nav{flex-shrink:0;height:68px;background:rgba(0,0,0,0.5);border-top:0.5px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:space-between;padding:0 20px;}
-.nbtn{padding:10px 26px;border-radius:30px;border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .18s;-webkit-user-select:none;}
-.nbtn:active{transform:scale(0.94);}
-.nbtn.back{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.5);}
-.nbtn.back:disabled{opacity:0.15;cursor:default;}
-.nbtn.next{background:#1a3a6b;color:#fff;min-width:108px;text-align:center;}
-.nbtn.next.done{background:linear-gradient(135deg,#1a5c3a,#22884a);}
-.nav-mid{display:flex;flex-direction:column;align-items:center;gap:5px;}
-.dots{display:flex;gap:5px;align-items:center;}
-.dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.1);transition:all .25s;}
-.dot.past{background:rgba(74,222,128,0.45);}
-.dot.active{background:#60a5fa;width:16px;border-radius:3px;}
-.nav-hint{font-size:10px;color:rgba(255,255,255,0.2);}
-
-@keyframes upgradePop{0%{transform:scale(1)} 40%{transform:scale(1.08)} 100%{transform:scale(1)}}
-.upgrade-item.pulse{animation:upgradePop .5s ease .2s both;}
-</style>
-</head>
-<body>
-<div id="app">
-  <div class="stage">
-
-    <!-- LEFT PANEL -->
-    <div class="layer-panel">
-      <div class="step-list" id="step-list"></div>
-      <div class="panel-divider"></div>
-      <div class="panel-section">Your Upgrades</div>
-      <div class="upgrade-list" id="upgrade-list"></div>
-    </div>
-
-    <!-- IMAGE AREA -->
-    <div class="image-area" id="image-area">
-      <div class="upgrade-callout" id="upgrade-callout">
-        <div class="uc-label">Upgrade Highlight</div>
-        <div class="uc-name" id="uc-name"></div>
-      </div>
-      <div class="label-box" id="label-box">
-        <div class="label-step" id="lbl-step"></div>
-        <div class="label-name" id="lbl-name"></div>
-        <div class="label-desc" id="lbl-desc"></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="nav">
-    <button class="nbtn back" id="btn-back" onclick="nav(-1)" disabled>← Back</button>
-    <div class="nav-mid">
-      <div class="dots" id="dots"></div>
-      <div class="nav-hint">tap a step or use next</div>
-    </div>
-    <button class="nbtn next" id="btn-next" onclick="nav(1)">Start →</button>
-  </div>
-</div>
-
-<script>
 
 </script>
 </div>
