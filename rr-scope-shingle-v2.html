@@ -96,7 +96,9 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
     </div>
 
     <!-- IMAGE AREA -->
-    <div class="image-area" id="image-area">
+    <div style="display:flex;flex-direction:column;flex:1;min-height:0;">
+      <div id="pitch-title" style="text-align:center;padding:12px 20px 2px;font-size:24px;font-weight:700;color:#fff;letter-spacing:-0.3px;flex-shrink:0;"></div>
+      <div class="image-area" id="image-area" style="flex:1;">
       <div class="upgrade-callout" id="upgrade-callout">
         <div class="uc-label">Upgrade Highlight</div>
         <div class="uc-name" id="uc-name"></div>
@@ -109,14 +111,16 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
     </div>
   </div>
 
+    </div>
+  </div>
   <div class="nav" style="justify-content:space-between;padding:0 20px;">
     <div style="display:flex;align-items:center;">
       <div class="dots" id="dots"></div>
     </div>
     <div style="display:flex;gap:8px;">
-      <button onclick="window.parent.goToAddonsFor(window.parent.currentPrice||'p1')" style="padding:10px 18px;border-radius:30px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.7);font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">Add-Ons</button>
-      <button onclick="window.parent.goToSummaryFromScope()" style="padding:10px 18px;border-radius:30px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.7);font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">Summary</button>
-      <button onclick="window.parent.show('s-setup')" style="padding:10px 18px;border-radius:30px;border:none;background:#1a3a6b;color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">&#9998; Setup</button>
+      <button onclick="window.parent.goToAddonsFor&&window.parent.goToAddonsFor(window.parent.currentPrice||'p1')" style="padding:10px 18px;border-radius:30px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.7);font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">Add-Ons</button>
+      <button onclick="window.parent.goToSummaryFromScope&&window.parent.goToSummaryFromScope()" style="padding:10px 18px;border-radius:30px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.7);font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">Summary</button>
+      <button onclick="window.parent.show&&window.parent.show('s-setup')" style="padding:10px 18px;border-radius:30px;border:none;background:#1a3a6b;color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">&#9998; Setup</button>
     </div>
   </div>
 </div>
@@ -156,6 +160,28 @@ LAYERS.forEach((L,i) => {
   s.appendChild(img);
   area.insertBefore(s, callout);
 });
+
+// Populate title from parent app customer name
+(function(){
+  try{
+    const name = window.parent.document.getElementById('customer-name')?.value?.trim();
+    const el = document.getElementById('sc-pitch-title');
+    if(el && name) el.textContent = name;
+  }catch(e){}
+})();
+
+// Populate title from parent app
+(function(){
+  try{
+    const p=window.parent.currentPrice||'p1';
+    const labelEl=window.parent.document.getElementById('label-'+p);
+    const typeEl=window.parent.document.getElementById('type-'+p);
+    const label=labelEl?.value?.trim();
+    const typeName=typeEl?.options[typeEl.selectedIndex]?.text||'';
+    const el=document.getElementById('pitch-title');
+    if(el) el.textContent=label||typeName||'';
+  }catch(e){}
+})();
 
 // Build step pills
 const stepList = document.getElementById('step-list');
