@@ -1579,6 +1579,7 @@ function goToSummary(){
   if(!visiblePrices.includes(currentPrice))visiblePrices.push(currentPrice);
   renderSummary();
   show("s-summary");
+  alert("show called - active screen="+document.querySelector(".screen.active")?.id);
   document.getElementById("summary-body").scrollTop=0;
   const customer=document.getElementById("customer-name")?.value||"";
   const el=document.getElementById("footer-customer-summary");
