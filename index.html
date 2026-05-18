@@ -1407,6 +1407,9 @@ function goToSummaryFromScope(){
 
 function goToScopeShingle(){
   show('s-scope-shingle');
+  // Ensure pitchData is initialized for this price before addons/summary
+  if(!visiblePrices.includes(currentPrice)) visiblePrices.push(currentPrice);
+  savePitchData();
   const iframe=document.getElementById('scope-iframe');
   if(iframe&&!iframe.src){iframe.src='rr-scope-shingle-v2.html';}
   const p=currentPrice||'p1';
@@ -1421,6 +1424,9 @@ function goToScopeShingle(){
 
 function goToScopeShingleTpo(){
   show('s-scope-shingle-tpo');
+  // Ensure pitchData is initialized for this price before addons/summary
+  if(!visiblePrices.includes(currentPrice)) visiblePrices.push(currentPrice);
+  savePitchData();
   const iframe=document.getElementById('scope-iframe-tpo');
   if(iframe&&!iframe.src){iframe.src='rr-scope-shingle-tpo.html';}
   const p=currentPrice||'p1';
