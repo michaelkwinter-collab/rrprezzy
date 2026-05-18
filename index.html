@@ -1308,7 +1308,7 @@ let currentPrice="p1",currentScope="shingle",sel={},coreOpen=false,coreShown=fal
 let pitchData={};
 let visiblePrices=[];
 
-function show(id){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));const el=document.getElementById(id);if(el)el.classList.add("active");}
+function show(id){closeResources();document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));const el=document.getElementById(id);if(el)el.classList.add("active");}
 
 function selPrice(p){
   currentPrice=p;
@@ -3095,8 +3095,9 @@ document.addEventListener('click', function(e){
   if(p !== undefined && !isNaN(ii)) openScopeEdit(p, ii);
 });
 
-
-</script>
+function openShareModal(){
+  document.getElementById("share-modal-bg").classList.add("show");
+}</script>
 </div>
 <!-- RESOURCES SLIDE-UP PANEL -->
 <div class="res-backdrop" id="res-backdrop" onclick="handleBackdropClick(event)">
