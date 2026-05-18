@@ -17,7 +17,7 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
 .screen.active{display:flex!important;}
 
 /* TOPBAR */
-.topbar{background:var(--navy);padding:0 22px;height:70px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;padding-top:env(safe-area-inset-top);}
+.topbar{background:var(--navy);padding:0 22px;height:70px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;padding-top:env(safe-area-inset-top);position:relative;z-index:10;}
 .topbar-logo{height:36px;width:auto;}
 .topbar-sub{color:rgba(255,255,255,0.6);font-size:15px;font-weight:500;}
 .tright{display:flex;gap:8px;align-items:center;}
@@ -253,7 +253,8 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
 .col-items{padding:0 18px 16px;border-top:0.5px solid var(--border);flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;min-height:0;}
 .editable-item{cursor:pointer;-webkit-user-select:none;background:none;border:none;width:100%;text-align:left;font-family:inherit;padding:0;}
 .editable-item:active{background:rgba(24,95,165,0.08);border-radius:6px;}
-.scope-edit-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:400;display:flex;align-items:center;justify-content:center;-webkit-backdrop-filter:blur(2px);}
+.scope-edit-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:400;display:none;align-items:center;justify-content:center;-webkit-backdrop-filter:blur(2px);}
+.scope-edit-overlay.open{display:flex;}
 .scope-edit-box{background:var(--bg);border-radius:var(--rlg);padding:20px;width:min(500px,90%);box-shadow:0 20px 60px rgba(0,0,0,0.3);}
 .scope-edit-label{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;}
 .scope-edit-input{width:100%;padding:12px 14px;font-size:17px;background:var(--bg2);border:2px solid #185FA5;border-radius:var(--r);color:var(--text);font-family:inherit;-webkit-appearance:none;}
@@ -772,10 +773,6 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
 
 <!-- SHINGLE SCOPE -->
 <div id="s-scope-shingle" class="screen">
-  <iframe id="scope-iframe" style="width:100%;height:100%;border:none;background:#0a0f1a;" src="rr-scope-shingle-v2.html" allow="autoplay"></iframe>
-</div>
-<!-- SHINGLE SCOPE -->
-<div id="s-scope-shingle" class="screen">
   <iframe id="scope-iframe" style="width:100%;height:100%;border:none;background:#0a0f1a;" allow="autoplay"></iframe>
 </div>
 
@@ -1259,7 +1256,9 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
   </div>
   <div class="bfooter">
     <div><div class="bfooter-lbl">Add-ons selected</div><div class="bfooter-val" id="addon-count">0</div></div>
-    <div><div class="bfooter-lbl" id="addons-footer-lbl"></div>
+    <div><div class="bfooter-lbl" id="addons-footer-lbl"></div></div>
+  </div>
+</div>
 <script>
 const TYPE_LABELS={shingle:"Shingle",stone_coated:"Stone Coated Steel",new_tile:"New Concrete Tile",tile_relay:"Tile Relay",tpo:"TPO",silicone:"Silicone Coating",repairs:"Repairs / Misc",shingle_tpo:"Shingle + TPO",stone_coated_tpo:"Stone Coated + TPO",new_tile_tpo:"New Concrete Tile + TPO",tile_relay_tpo:"Tile Relay + TPO"};
 const IC=["#dbeafe","#dcfce7","#fef9c3","#fce7f3","#ede9fe","#ffedd5","#e0f2fe","#fef3c7","#fdf2f8","#d1fae5"];
