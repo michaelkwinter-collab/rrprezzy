@@ -3078,13 +3078,7 @@ function closeFinancingModal(){
 
 try{localStorage.removeItem("rr_pitchstate");}catch(e){}
 // Click delegation for scope item editing
-document.addEventListener('click', function(e){
-  const el = e.target.closest('.editable-item');
-  if(!el) return;
-  const p = el.dataset.editP;
-  const ii = parseInt(el.dataset.editIi);
-  if(p !== undefined && !isNaN(ii)) openScopeEdit(p, ii);
-});
+
 
 
 
@@ -3109,11 +3103,6 @@ async function generateAndShare(){
       const file=new File([blob],"resilient-roofing-summary.png",{type:"image/png"});
       const customer=document.getElementById("customer-name")?.value||"";
       let shareText="Hi"+(customer?" "+customer.split(" ")[0]:"")+"! Here\u2019s your personalized roofing summary from Resilient Roofing.";
-      if(followupDate){
-        const d=new Date(followupDate+"T12:00:00");
-        const dateLabel=d.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"});
-        shareText+=" I\u2019ll follow up with you on "+dateLabel+(followupNote?" \u2014 "+followupNote:"")+".";
-      }
       shareText+="\n\nIf you\u2019d like to compare your quotes before deciding, you\u2019re welcome to book a quick Proposal Review with our manager: https://bookings.cloud.microsoft/bookwithme/user/7ca930bbb708498096f84cb0efd88e14%40resilientroofing.com/meetingtype/sLjgcNB3_U27iRyhh2siIw2?anonymous&ismsaljsauthenabled";
       if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
         await navigator.share({files:[file],text:shareText});
@@ -3126,8 +3115,6 @@ async function generateAndShare(){
       btn.disabled=false;
       txt.innerHTML="Generate &amp; Share";
       closeShareModal();
-      // Generate calendar reminder if date was set
-      const followupTime=document.getElementById("followup-time")?.value||"10:00";
     },"image/png");
   }catch(e){
     console.error(e);
@@ -3136,17 +3123,9 @@ async function generateAndShare(){
   }
 }
 
-document.addEventListener('click', function(e){
-  const el = e.target.closest('.editable-item');
-  if(!el) return;
-  const p = el.dataset.editP;
-  const ii = parseInt(el.dataset.editIi);
-  if(p !== undefined && !isNaN(ii)) openScopeEdit(p, ii);
-});
 
-function openShareModal(){
-  document.getElementById("share-modal-bg").classList.add("show");
-}
+
+
 
 document.addEventListener('click', function(e){
   const el = e.target.closest('.editable-item');
