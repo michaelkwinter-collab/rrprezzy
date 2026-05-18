@@ -1304,7 +1304,7 @@ const SETTINGS_RATES=[
   {key:"psu",label:"PSU 30 Underlayment upgrade",sub:"Per square (shingle add-on)",default:45}
 ];
 
-let currentPrice="p1",currentScope="shingle",sel={},coreOpen=false,coreShown=false;
+let currentPrice="p1",currentScope="shingle",sel={},coreOpen=false,coreShown=false,currentScopeObj=null;
 let pitchData={};
 let visiblePrices=[];
 
@@ -2316,24 +2316,21 @@ function backFromAddons(){
 }
 
 function goToSummaryFromAddons(){
-  alert('currentPrice='+currentPrice+'\nvisiblePrices='+JSON.stringify(visiblePrices)+'\npitchData keys='+JSON.stringify(Object.keys(pitchData)));
-  try{saveAddonState(currentPrice);}catch(e){alert('saveAddonState error: '+e.message);return;}
-  alert('saveAddonState OK');
-  try{var r=calcAddons();var addonTotal=r.total;var addonLines=r.lines;}catch(e){alert('calcAddons error: '+e.message);return;}
-  alert('calcAddons OK');
-  try{
-    if(!pitchData[currentPrice]) savePitchData();
-    if(pitchData[currentPrice]){
-      pitchData[currentPrice].addonTotal=addonTotal;
-      pitchData[currentPrice].addonLines=addonLines;
-    }
-    if(!visiblePrices.includes(currentPrice)) visiblePrices.push(currentPrice);
-  }catch(e){alert('pitchData error: '+e.message);return;}
-  alert('pitchData OK');
-  try{renderSummary();}catch(e){alert('renderSummary error: '+e.message);return;}
-  alert('renderSummary OK');
-  try{show('s-summary');}catch(e){alert('show error: '+e.message);return;}
-  alert('done');
+  saveAddonState(currentPrice);
+  var r=calcAddons();var addonTotal=r.total;var addonLines=r.lines;
+  if(!pitchData[currentPrice]) savePitchData();
+  if(pitchData[currentPrice]){
+    pitchData[currentPrice].addonTotal=addonTotal;
+    pitchData[currentPrice].addonLines=addonLines;
+  }
+  if(!visiblePrices.includes(currentPrice)) visiblePrices.push(currentPrice);
+  renderSummary();
+  show('s-summary');
+  var el=document.getElementById('summary-body');
+  if(el) el.scrollTop=0;
+  var customer=document.getElementById('customer-name')?.value||'';
+  var cel=document.getElementById('footer-customer-summary');
+  if(cel) cel.textContent=customer||'Client';
 }
 
 
