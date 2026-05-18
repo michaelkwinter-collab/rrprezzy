@@ -546,14 +546,7 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
           <input type="email" id="rep-email" placeholder="e.g. mike@resilientroofing.com" inputmode="email">
         </div>
 
-        <div class="share-rep-field">
-          <label>Follow-up date</label>
-          <input type="date" id="followup-date" style="font-size:16px;">
-        </div>
-        <div class="share-rep-field">
-          <label>Follow-up time</label>
-          <input type="time" id="followup-time" value="10:00" style="font-size:16px;">
-        </div>
+
         <div class="share-rep-field">
           <label>Note (optional)</label>
           <input type="text" id="followup-note" placeholder="e.g. Call to discuss Stone Coated">
@@ -2272,7 +2265,8 @@ function updateAddonCount(){
 
 function calcAddons(){
   let total=0,lines=[];
-  const getR=id=>parseFloat(document.getElementById('rate-'+id)?.value)||0;
+  const _rateDefaults=Object.fromEntries((typeof SETTINGS_RATES!=='undefined'?SETTINGS_RATES:[]).map(r=>[r.key,r.default]));
+  const getR=id=>{const el=document.getElementById('rate-'+id);return el?parseFloat(el.value)||0:(_rateDefaults[id]||0);};
   // Gutters
   if(addonActive['gutters']){
     const lf=parseFloat(document.getElementById('qty-gutters')?.value)||0;
@@ -3114,8 +3108,6 @@ async function generateAndShare(){
     canvas.toBlob(async function(blob){
       const file=new File([blob],"resilient-roofing-summary.png",{type:"image/png"});
       const customer=document.getElementById("customer-name")?.value||"";
-      const followupDate=document.getElementById("followup-date")?.value;
-      const followupNote=document.getElementById("followup-note")?.value;
       let shareText="Hi"+(customer?" "+customer.split(" ")[0]:"")+"! Here\u2019s your personalized roofing summary from Resilient Roofing.";
       if(followupDate){
         const d=new Date(followupDate+"T12:00:00");
