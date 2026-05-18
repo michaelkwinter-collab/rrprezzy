@@ -1936,8 +1936,14 @@ function loadOption(p){
   document.getElementById("video-panel")?.classList.remove("show");
   const inlineIframe=document.getElementById("inline-iframe");if(inlineIframe)inlineIframe.src="";
   document.getElementById("image-panel")?.classList.remove("show");
-  renderRep();
-  show("s-builder");
+  // Route to correct scope iframe or builder based on type
+  const loadType=document.getElementById("type-"+p)?.value||'shingle';
+  if(['shingle','shingle_tpo','tpo','new_tile','tile_relay','stone_coated'].includes(loadType)){
+    goToBuilder();
+  } else {
+    renderRep();
+    show("s-builder");
+  }
 }
 
 
