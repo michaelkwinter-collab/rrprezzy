@@ -2279,10 +2279,12 @@ function toggleAddonsMenu(e){
 
 let addonsCalledFromSummary=false;
 function goToAddonsFor(p){
-  addonsCalledFromSummary=true;
+  addonsCalledFromSummary=false;
   const menu=document.getElementById("addons-menu");
   if(menu)menu.style.display="none";
   currentPrice=p;
+  if(!visiblePrices.includes(p)) visiblePrices.push(p);
+  savePitchData();
   goToAddons();
 }
 
