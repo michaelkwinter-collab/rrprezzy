@@ -1307,7 +1307,15 @@ let currentPrice="p1",currentScope="shingle",sel={},coreOpen=false,coreShown=fal
 let pitchData={};
 let visiblePrices=[];
 
-function show(id){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));const el=document.getElementById(id);if(el)el.classList.add("active");}
+function show(id){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  const el=document.getElementById(id);if(el)el.classList.add("active");
+  document.querySelectorAll('.guide-panel').forEach(g=>g.classList.remove('open'));
+  const rb=document.getElementById('res-backdrop');
+  if(rb){rb.classList.remove('open');rb.style.display='none';}
+  const sb=document.getElementById('saved-backdrop');
+  if(sb)sb.classList.remove('open');
+}
 
 function selPrice(p){
   currentPrice=p;
