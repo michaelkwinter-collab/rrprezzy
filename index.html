@@ -2226,8 +2226,8 @@ function restoreAddonState(p){
     }
   });
   // Restore gutter size toggle
-  document.getElementById('g5').className='radio-opt'+(gutterSize===5?' sel':'');
-  document.getElementById('g6').className='radio-opt'+(gutterSize===6?' sel':'');
+  const g5=document.getElementById('g5');if(g5)g5.className='radio-opt'+(gutterSize===5?' sel':'');
+  const g6=document.getElementById('g6');if(g6)g6.className='radio-opt'+(gutterSize===6?' sel':'');
   // Restore paint toggles
   const pt1=document.getElementById('paint-type-1');
   const pt2=document.getElementById('paint-type-2');
@@ -2260,7 +2260,8 @@ function setPaintStory(s){
 }
 
 function updateAddonCount(){
-  document.getElementById('addon-count').textContent=Object.keys(addonActive).length;
+  const el=document.getElementById('addon-count');
+  if(el) el.textContent=Object.keys(addonActive).length;
 }
 
 function calcAddons(){
