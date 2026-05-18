@@ -1577,9 +1577,9 @@ function goToSummary(){
   saveAddonState(currentPrice);
   savePitchData();
   if(!visiblePrices.includes(currentPrice))visiblePrices.push(currentPrice);
-  renderSummary();
-  show("s-summary");
-  alert("show called - active screen="+document.querySelector(".screen.active")?.id);
+  try{renderSummary();}catch(e){alert("renderSummary error: "+e.message);return;}
+  try{show("s-summary");}catch(e){alert("show error: "+e.message);return;}
+  alert("success - active="+document.querySelector(".screen.active")?.id);
   document.getElementById("summary-body").scrollTop=0;
   const customer=document.getElementById("customer-name")?.value||"";
   const el=document.getElementById("footer-customer-summary");
