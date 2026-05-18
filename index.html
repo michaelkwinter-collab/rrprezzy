@@ -2317,23 +2317,23 @@ function backFromAddons(){
 
 function goToSummaryFromAddons(){
   alert('currentPrice='+currentPrice+'\nvisiblePrices='+JSON.stringify(visiblePrices)+'\npitchData keys='+JSON.stringify(Object.keys(pitchData)));
-  saveAddonState(currentPrice);
-  const{total:addonTotal,lines:addonLines}=calcAddons();
-  if(!pitchData[currentPrice]) savePitchData();
-  if(pitchData[currentPrice]){
-    pitchData[currentPrice].addonTotal=addonTotal;
-    pitchData[currentPrice].addonLines=addonLines;
-  }
-  if(!visiblePrices.includes(currentPrice)) visiblePrices.push(currentPrice);
-
-  renderSummary();
-
-  show("s-summary");
-  const el=document.getElementById("summary-body");
-  if(el) el.scrollTop=0;
-  const customer=document.getElementById("customer-name")?.value||"";
-  const cel=document.getElementById("footer-customer-summary");
-  if(cel) cel.textContent=customer||"Client";
+  try{saveAddonState(currentPrice);}catch(e){alert('saveAddonState error: '+e.message);return;}
+  alert('saveAddonState OK');
+  try{var r=calcAddons();var addonTotal=r.total;var addonLines=r.lines;}catch(e){alert('calcAddons error: '+e.message);return;}
+  alert('calcAddons OK');
+  try{
+    if(!pitchData[currentPrice]) savePitchData();
+    if(pitchData[currentPrice]){
+      pitchData[currentPrice].addonTotal=addonTotal;
+      pitchData[currentPrice].addonLines=addonLines;
+    }
+    if(!visiblePrices.includes(currentPrice)) visiblePrices.push(currentPrice);
+  }catch(e){alert('pitchData error: '+e.message);return;}
+  alert('pitchData OK');
+  try{renderSummary();}catch(e){alert('renderSummary error: '+e.message);return;}
+  alert('renderSummary OK');
+  try{show('s-summary');}catch(e){alert('show error: '+e.message);return;}
+  alert('done');
 }
 
 
