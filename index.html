@@ -1262,6 +1262,7 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
                       <div style="font-size:15px;font-weight:700;color:var(--text);">Gold</div>
                
+<script>
 const TYPE_LABELS={shingle:"Shingle",stone_coated:"Stone Coated Steel",new_tile:"New Concrete Tile",tile_relay:"Tile Relay",tpo:"TPO",silicone:"Silicone Coating",repairs:"Repairs / Misc",shingle_tpo:"Shingle + TPO",stone_coated_tpo:"Stone Coated + TPO",new_tile_tpo:"New Concrete Tile + TPO",tile_relay_tpo:"Tile Relay + TPO"};
 const IC=["#dbeafe","#dcfce7","#fef9c3","#fce7f3","#ede9fe","#ffedd5","#e0f2fe","#fef3c7","#fdf2f8","#d1fae5"];
 const TPO_80={id:"tpo_80mil",name:"TPO — JM 80 mil (25yr)",sub:"JM 80 Mil TPO — 25-year warranty",icon:"🏢",desc:"Premium JM 80 Mil TPO system — ISO foam board, JM 80 Mil TPO membrane, CLAD edge metal and flashings. 25-year manufacturer warranty.",pts:["1/2\u201D ISO foam board insulation","JM 80 Mil TPO membrane","TPO CLAD edge metal & flashings","10-yr workmanship + 25-yr manufacturer warranty"]};
@@ -3125,12 +3126,6 @@ async function generateAndShare(){
       closeShareModal();
       // Generate calendar reminder if date was set
       const followupTime=document.getElementById("followup-time")?.value||"10:00";
-      if(followupDate){
-        const custName=document.getElementById("customer-name")?.value||"Client";
-        const note=document.getElementById("followup-note")?.value||"Follow up on roofing proposal";
-        const repName2=document.getElementById("rep-name")?.value||"";
-        createCalendarReminder(followupDate, followupTime, custName, note, repName2);
-      }
     },"image/png");
   }catch(e){
     console.error(e);
@@ -3149,15 +3144,6 @@ document.addEventListener('click', function(e){
 
 function openShareModal(){
   document.getElementById("share-modal-bg").classList.add("show");
-}t.getElementById("rep-name")?.value||"";
-        createCalendarReminder(followupDate, followupTime, custName, note, repName2);
-      }
-    },"image/png");
-  }catch(e){
-    console.error(e);
-    btn.disabled=false;
-    txt.innerHTML="Generate &amp; Share";
-  }
 }
 
 document.addEventListener('click', function(e){
