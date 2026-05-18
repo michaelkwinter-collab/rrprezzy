@@ -784,6 +784,21 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
   <iframe id="scope-iframe-tpo" style="width:100%;height:100%;border:none;background:#0a0f1a;" allow="autoplay"></iframe>
 </div>
 
+<!-- TPO SCOPE -->
+<div id="s-scope-tpo" class="screen">
+  <iframe id="scope-iframe-tpo-only" style="width:100%;height:100%;border:none;background:#0a0f1a;" allow="autoplay"></iframe>
+</div>
+
+<!-- NEW TILE SCOPE -->
+<div id="s-scope-new-tile" class="screen">
+  <iframe id="scope-iframe-new-tile" style="width:100%;height:100%;border:none;background:#0a0f1a;" allow="autoplay"></iframe>
+</div>
+
+<!-- STONE COATED SCOPE -->
+<div id="s-scope-stone-coated" class="screen">
+  <iframe id="scope-iframe-stone-coated" style="width:100%;height:100%;border:none;background:#0a0f1a;" allow="autoplay"></iframe>
+</div>
+
 <!-- BUILDER -->
 
 <div id="s-builder" class="screen">
@@ -1246,21 +1261,7 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
                   <div class="insulation-tier" id="ins-tier-gold" onclick="selectInsulationTier('gold')" style="background:var(--bg2);border:2px solid var(--border2);border-radius:10px;padding:12px 14px;cursor:pointer;">
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
                       <div style="font-size:15px;font-weight:700;color:var(--text);">Gold</div>
-                      <div style="font-size:14px;font-weight:700;color:#4a7fb5;" id="ins-price-gold">—</div>
-                    </div>
-                    <div style="font-size:12px;color:var(--text3);line-height:1.5;">Removal, vacuum attic, R-38 fiberglass attic floor</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-      </div>
-    </div>
-  </div>
-  <div class="bfooter">
-    <div><div class="bfooter-lbl">Add-ons selected</div><div class="bfooter-val" id="addon-count">0</div></div>
-    <div><div class="bfooter-lbl" id="addons-footer-lbl"></div>
-<script>
+               
 const TYPE_LABELS={shingle:"Shingle",stone_coated:"Stone Coated Steel",new_tile:"New Concrete Tile",tile_relay:"Tile Relay",tpo:"TPO",silicone:"Silicone Coating",repairs:"Repairs / Misc",shingle_tpo:"Shingle + TPO",stone_coated_tpo:"Stone Coated + TPO",new_tile_tpo:"New Concrete Tile + TPO",tile_relay_tpo:"Tile Relay + TPO"};
 const IC=["#dbeafe","#dcfce7","#fef9c3","#fce7f3","#ede9fe","#ffedd5","#e0f2fe","#fef3c7","#fdf2f8","#d1fae5"];
 const TPO_80={id:"tpo_80mil",name:"TPO — JM 80 mil (25yr)",sub:"JM 80 Mil TPO — 25-year warranty",icon:"🏢",desc:"Premium JM 80 Mil TPO system — ISO foam board, JM 80 Mil TPO membrane, CLAD edge metal and flashings. 25-year manufacturer warranty.",pts:["1/2\u201D ISO foam board insulation","JM 80 Mil TPO membrane","TPO CLAD edge metal & flashings","10-yr workmanship + 25-yr manufacturer warranty"]};
@@ -1399,6 +1400,52 @@ function buildSettingsRows(){
   </div>`).join("");
 }
 
+
+function goToScopeTpo(){
+  show('s-scope-tpo');
+  const iframe=document.getElementById('scope-iframe-tpo-only');
+  if(iframe&&!iframe.src){iframe.src='rr-scope-tpo.html';}
+  const p=currentPrice||'p1';
+  const pre=setupUpgrades[p]||new Set();
+  const scope=SCOPES['tpo'];
+  const selectedUpgrades=(scope?.upgrades||[]).filter(u=>pre.has(u.id)).map(u=>({id:u.id,name:u.name}));
+  const msg={type:'scopeInit',upgrades:selectedUpgrades};
+  try{iframe.contentWindow.postMessage(msg,'*');}catch(e){}
+  iframe.onload=function(){try{iframe.contentWindow.postMessage(msg,'*');}catch(e){}};
+  if(!visiblePrices.includes(p)) visiblePrices.push(p);
+  savePitchData();
+}
+
+function goToScopeNewTile(){
+  show('s-scope-new-tile');
+  const iframe=document.getElementById('scope-iframe-new-tile');
+  if(iframe&&!iframe.src){iframe.src='rr-scope-new-tile.html';}
+  const p=currentPrice||'p1';
+  const pre=setupUpgrades[p]||new Set();
+  const scope=SCOPES['new_tile'];
+  const selectedUpgrades=(scope?.upgrades||[]).filter(u=>pre.has(u.id)).map(u=>({id:u.id,name:u.name}));
+  const msg={type:'scopeInit',upgrades:selectedUpgrades};
+  try{iframe.contentWindow.postMessage(msg,'*');}catch(e){}
+  iframe.onload=function(){try{iframe.contentWindow.postMessage(msg,'*');}catch(e){}};
+  if(!visiblePrices.includes(p)) visiblePrices.push(p);
+  savePitchData();
+}
+
+function goToScopeStoneCoated(){
+  show('s-scope-stone-coated');
+  const iframe=document.getElementById('scope-iframe-stone-coated');
+  if(iframe&&!iframe.src){iframe.src='rr-scope-stone-coated.html';}
+  const p=currentPrice||'p1';
+  const pre=setupUpgrades[p]||new Set();
+  const scope=SCOPES['stone_coated'];
+  const selectedUpgrades=(scope?.upgrades||[]).filter(u=>pre.has(u.id)).map(u=>({id:u.id,name:u.name}));
+  const msg={type:'scopeInit',upgrades:selectedUpgrades};
+  try{iframe.contentWindow.postMessage(msg,'*');}catch(e){}
+  iframe.onload=function(){try{iframe.contentWindow.postMessage(msg,'*');}catch(e){}};
+  if(!visiblePrices.includes(p)) visiblePrices.push(p);
+  savePitchData();
+}
+
 function goToSummaryFromScope(){
   visiblePrices.forEach(p=>refreshPitchFromSetup(p));
   renderSummary();
@@ -1415,9 +1462,8 @@ function goToScopeShingle(){
   const p=currentPrice||'p1';
   const pre=setupUpgrades[p]||new Set();
   const scope=SCOPES['shingle'];
-  const customLabel=document.getElementById('label-'+p)?.value?.trim()||'';
   const selectedUpgrades=(scope?.upgrades||[]).filter(u=>pre.has(u.id)).map(u=>({id:u.id,name:u.name}));
-  const msg={type:'scopeInit',title:customLabel||'Shingle Roof',upgrades:selectedUpgrades};
+  const msg={type:'scopeInit',upgrades:selectedUpgrades};
   try{iframe.contentWindow.postMessage(msg,'*');}catch(e){}
   iframe.onload=function(){try{iframe.contentWindow.postMessage(msg,'*');}catch(e){}};
 }
@@ -1432,9 +1478,8 @@ function goToScopeShingleTpo(){
   const p=currentPrice||'p1';
   const pre=setupUpgrades[p]||new Set();
   const scope=SCOPES['shingle_tpo'];
-  const customLabel=document.getElementById('label-'+p)?.value?.trim()||'';
   const selectedUpgrades=(scope?.upgrades||[]).filter(u=>pre.has(u.id)).map(u=>({id:u.id,name:u.name}));
-  const msg={type:'scopeInit',title:customLabel||'Shingle + TPO Roof',upgrades:selectedUpgrades};
+  const msg={type:'scopeInit',upgrades:selectedUpgrades};
   try{iframe.contentWindow.postMessage(msg,'*');}catch(e){}
   iframe.onload=function(){try{iframe.contentWindow.postMessage(msg,'*');}catch(e){}};
 }
@@ -1443,6 +1488,10 @@ function goToBuilder(){
   const type=document.getElementById("type-"+currentPrice)?.value||"shingle";
   if(type==='shingle_tpo'){currentScope='shingle_tpo';coreOpen=false;coreShown=false;sel={};goToScopeShingleTpo();return;}
   if(type==='shingle'){currentScope='shingle';coreOpen=false;coreShown=false;sel={};goToScopeShingle();return;}
+  if(type==='tpo'){currentScope='tpo';coreOpen=false;coreShown=false;sel={};goToScopeTpo();return;}
+  if(type==='new_tile'){currentScope='new_tile';coreOpen=false;coreShown=false;sel={};goToScopeNewTile();return;}
+  if(type==='tile_relay'){currentScope='tile_relay';coreOpen=false;coreShown=false;sel={};goToScopeNewTile();return;}
+  if(type==='stone_coated'){currentScope='stone_coated';coreOpen=false;coreShown=false;sel={};goToScopeStoneCoated();return;}
   if(type==='shingle'){
     currentScope=type;coreOpen=false;coreShown=false;sel={};
     const preSelected=setupUpgrades[currentPrice];
@@ -2308,10 +2357,13 @@ function goToAddons(){
 }
 
 function backFromAddons(){
-  // Go back to scope if we came from there, otherwise builder
   const type=document.getElementById('type-'+currentPrice)?.value||'';
   if(type==='shingle') show('s-scope-shingle');
   else if(type==='shingle_tpo') show('s-scope-shingle-tpo');
+  else if(type==='tpo') show('s-scope-tpo');
+  else if(type==='new_tile') show('s-scope-new-tile');
+  else if(type==='tile_relay') show('s-scope-new-tile');
+  else if(type==='stone_coated') show('s-scope-stone-coated');
   else show('s-builder');
 }
 
@@ -3077,6 +3129,27 @@ async function generateAndShare(){
         const custName=document.getElementById("customer-name")?.value||"Client";
         const note=document.getElementById("followup-note")?.value||"Follow up on roofing proposal";
         const repName2=document.getElementById("rep-name")?.value||"";
+        createCalendarReminder(followupDate, followupTime, custName, note, repName2);
+      }
+    },"image/png");
+  }catch(e){
+    console.error(e);
+    btn.disabled=false;
+    txt.innerHTML="Generate &amp; Share";
+  }
+}
+
+document.addEventListener('click', function(e){
+  const el = e.target.closest('.editable-item');
+  if(!el) return;
+  const p = el.dataset.editP;
+  const ii = parseInt(el.dataset.editIi);
+  if(p !== undefined && !isNaN(ii)) openScopeEdit(p, ii);
+});
+
+function openShareModal(){
+  document.getElementById("share-modal-bg").classList.add("show");
+}t.getElementById("rep-name")?.value||"";
         createCalendarReminder(followupDate, followupTime, custName, note, repName2);
       }
     },"image/png");
