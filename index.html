@@ -2299,25 +2299,29 @@ function goToAddons(){
 }
 
 function backFromAddons(){
-  show('s-builder');
+  // Go back to scope if we came from there, otherwise builder
+  const type=document.getElementById('type-'+currentPrice)?.value||'';
+  if(type==='shingle') show('s-scope-shingle');
+  else if(type==='shingle_tpo') show('s-scope-shingle-tpo');
+  else show('s-builder');
 }
 
 function goToSummaryFromAddons(){
   saveAddonState(currentPrice);
-  // Only update addon data — preserve scope/upgrades/price already set
+  const{total:addonTotal,lines:addonLines}=calcAddons();
+  if(!pitchData[currentPrice]) savePitchData();
   if(pitchData[currentPrice]){
-    const{total:addonTotal,lines:addonLines}=calcAddons();
     pitchData[currentPrice].addonTotal=addonTotal;
     pitchData[currentPrice].addonLines=addonLines;
-    renderSummary();
-    show("s-summary");
-    document.getElementById("summary-body").scrollTop=0;
-    const customer=document.getElementById("customer-name")?.value||"";
-    const el=document.getElementById("footer-customer-summary");
-    if(el)el.textContent=customer||"Client";
-  } else {
-    goToSummary();
   }
+  if(!visiblePrices.includes(currentPrice)) visiblePrices.push(currentPrice);
+  renderSummary();
+  show("s-summary");
+  const el=document.getElementById("summary-body");
+  if(el) el.scrollTop=0;
+  const customer=document.getElementById("customer-name")?.value||"";
+  const cel=document.getElementById("footer-customer-summary");
+  if(cel) cel.textContent=customer||"Client";
 }
 
 
