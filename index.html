@@ -3152,17 +3152,23 @@ async function generateAndShare(){
       const customer=document.getElementById("customer-name")?.value||"";
       let shareText="Hi"+(customer?" "+customer.split(" ")[0]:"")+"! Here\u2019s your personalized roofing summary from Resilient Roofing.";
       shareText+="\n\nIf you\u2019d like to compare your quotes before deciding, you\u2019re welcome to book a quick Proposal Review with our manager: https://bookings.cloud.microsoft/bookwithme/user/7ca930bbb708498096f84cb0efd88e14%40resilientroofing.com/meetingtype/sLjgcNB3_U27iRyhh2siIw2?anonymous&ismsaljsauthenabled";
+
+      function reset(){
+        btn.disabled=false;
+        txt.innerHTML="Generate &amp; Share";
+        closeShareModal();
+      }
+
       if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
-        await navigator.share({files:[file],text:shareText});
+        navigator.share({files:[file],text:shareText}).catch(function(){});
+        setTimeout(reset, 500);
       } else {
         const url=URL.createObjectURL(blob);
         const a=document.createElement("a");
         a.href=url;a.download="resilient-roofing-summary.png";a.click();
         URL.revokeObjectURL(url);
+        reset();
       }
-      btn.disabled=false;
-      txt.innerHTML="Generate &amp; Share";
-      closeShareModal();
     },"image/png");
   }catch(e){
     console.error(e);
