@@ -496,6 +496,7 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
 
 
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 <div id="app">
@@ -3141,41 +3142,47 @@ async function generateAndShare(){
   const txt=document.getElementById("share-btn-txt");
   btn.disabled=true;
   txt.innerHTML='<div class="share-spinner"></div> Generating...';
-  const preview=document.getElementById("share-preview");
-  preview.innerHTML=buildPreviewHTML();
-  try{
-    const canvas=await html2canvas(preview.firstElementChild,{
-      scale:2,backgroundColor:"#ffffff",useCORS:true,width:390,windowWidth:390
-    });
-    canvas.toBlob(async function(blob){
-      const file=new File([blob],"resilient-roofing-summary.png",{type:"image/png"});
-      const customer=document.getElementById("customer-name")?.value||"";
-      let shareText="Hi"+(customer?" "+customer.split(" ")[0]:"")+"! Here\u2019s your personalized roofing summary from Resilient Roofing.";
-      shareText+="\n\nIf you\u2019d like to compare your quotes before deciding, you\u2019re welcome to book a quick Proposal Review with our manager: https://bookings.cloud.microsoft/bookwithme/user/7ca930bbb708498096f84cb0efd88e14%40resilientroofing.com/meetingtype/sLjgcNB3_U27iRyhh2siIw2?anonymous&ismsaljsauthenabled";
 
-      function reset(){
-        btn.disabled=false;
-        txt.innerHTML="Generate &amp; Share";
-        closeShareModal();
-      }
+  const customer=document.getElementById("customer-name")?.value||"";
+  let shareText="Hi"+(customer?" "+customer.split(" ")[0]:"")+"! Here\u2019s your personalized roofing summary from Resilient Roofing.";
+  shareText+="\n\nBook a Proposal Review: https://bookings.cloud.microsoft/bookwithme/user/7ca930bbb708498096f84cb0efd88e14%40resilientroofing.com/meetingtype/sLjgcNB3_U27iRyhh2siIw2?anonymous&ismsaljsauthenabled";
 
-      if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
-        navigator.share({files:[file],text:shareText}).catch(function(){});
-        setTimeout(reset, 500);
-      } else {
-        const url=URL.createObjectURL(blob);
-        const a=document.createElement("a");
-        a.href=url;a.download="resilient-roofing-summary.png";a.click();
-        URL.revokeObjectURL(url);
-        reset();
-      }
-    },"image/png");
-  }catch(e){
-    console.error(e);
+  function reset(){
     btn.disabled=false;
     txt.innerHTML="Generate &amp; Share";
+    closeShareModal();
+  }
+
+  try{
+    const preview=document.getElementById("share-preview");
+    preview.innerHTML=buildPreviewHTML();
+    if(typeof html2canvas==="undefined") throw new Error("no html2canvas");
+    const canvas=await html2canvas(preview.firstElementChild,{scale:2,backgroundColor:"#ffffff",useCORS:true,width:390,windowWidth:390,logging:false});
+    canvas.toBlob(async function(blob){
+      if(!blob){reset();return;}
+      const file=new File([blob],"resilient-roofing-summary.png",{type:"image/png"});
+      try{
+        if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
+          await navigator.share({files:[file],text:shareText});
+        } else {
+          const url=URL.createObjectURL(blob);
+          const a=document.createElement("a");
+          a.href=url;a.download="resilient-roofing-summary.png";a.click();
+          URL.revokeObjectURL(url);
+        }
+      }catch(shareErr){
+        // User cancelled or share failed — not an error
+        console.log("Share dismissed:",shareErr);
+      }
+      reset();
+    },"image/png");
+  }catch(e){
+    console.error("Generate failed:",e);
+    reset();
   }
 }
+
+
 
 
 
