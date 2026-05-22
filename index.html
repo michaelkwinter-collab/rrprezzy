@@ -793,6 +793,10 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
   <iframe id="scope-iframe-stone-coated" style="width:100%;height:100%;border:none;background:#0a0f1a;" allow="autoplay"></iframe>
 </div>
 
+<div id="s-scope-silicone" class="screen">
+  <iframe id="scope-iframe-silicone" style="width:100%;height:100%;border:none;background:#0a0f1a;" allow="autoplay"></iframe>
+</div>
+
 <!-- BUILDER -->
 
 <div id="s-builder" class="screen">
@@ -1442,6 +1446,21 @@ function goToScopeStoneCoated(){
   savePitchData();
 }
 
+function goToScopeSilicone(){
+  show('s-scope-silicone');
+  const iframe=document.getElementById('scope-iframe-silicone');
+  if(iframe&&!iframe.src){iframe.src='rr-scope-silicone.html';}
+  const p=currentPrice||'p1';
+  const pre=setupUpgrades[p]||new Set();
+  const scope=SCOPES['silicone'];
+  const selectedUpgrades=(scope?.upgrades||[]).filter(u=>pre.has(u.id)).map(u=>({id:u.id,name:u.name}));
+  const msg={type:'scopeInit',upgrades:selectedUpgrades};
+  try{iframe.contentWindow.postMessage(msg,'*');}catch(e){}
+  iframe.onload=function(){try{iframe.contentWindow.postMessage(msg,'*');}catch(e){}};
+  if(!visiblePrices.includes(p)) visiblePrices.push(p);
+  savePitchData();
+}
+
 function goToSummaryFromScope(){
   visiblePrices.forEach(p=>refreshPitchFromSetup(p));
   renderSummary();
@@ -1488,6 +1507,7 @@ function goToBuilder(){
   if(type==='new_tile'){currentScope='new_tile';coreOpen=false;coreShown=false;sel={};goToScopeNewTile();return;}
   if(type==='tile_relay'){currentScope='tile_relay';coreOpen=false;coreShown=false;sel={};goToScopeNewTile();return;}
   if(type==='stone_coated'){currentScope='stone_coated';coreOpen=false;coreShown=false;sel={};goToScopeStoneCoated();return;}
+  if(type==='silicone'){currentScope='silicone';coreOpen=false;coreShown=false;sel={};goToScopeSilicone();return;}
   if(type==='shingle'){
     currentScope=type;coreOpen=false;coreShown=false;sel={};
     const preSelected=setupUpgrades[currentPrice];
