@@ -3068,13 +3068,13 @@ function returnToSummary(){
 
 function openResources(){
   const bd=document.getElementById('res-backdrop');
-  if(bd){bd.style.display='flex';requestAnimationFrame(()=>bd.classList.add('open'));}
+  if(bd){bd.style.display='';requestAnimationFrame(()=>bd.classList.add('open'));}
 }
 function closeResources(){
   const bd=document.getElementById('res-backdrop');
   if(bd){
     bd.classList.remove('open');
-    setTimeout(()=>{bd.style.display='none';},320);
+    setTimeout(()=>{bd.style.display='';},320);
   }
   document.querySelectorAll('.guide-panel').forEach(g=>g.classList.remove('open'));
 }
