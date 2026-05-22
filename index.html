@@ -1953,7 +1953,7 @@ function loadOption(p){
   document.getElementById("image-panel")?.classList.remove("show");
   // Route to correct scope iframe or builder based on type
   const loadType=document.getElementById("type-"+p)?.value||'shingle';
-  if(['shingle','shingle_tpo','tpo','new_tile','tile_relay','stone_coated'].includes(loadType)){
+  if(['shingle','shingle_tpo','tpo','new_tile','tile_relay','stone_coated','silicone'].includes(loadType)){
     goToBuilder();
   } else {
     renderRep();
