@@ -638,7 +638,7 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
               <optgroup label="Single system">
                 <option value="" disabled selected hidden>Select Roof Type</option>
             <option value="shingle">Shingle</option>
-                <option value="stone_coated"selected>Stone Coated Steel</option>
+                <option value="stone_coated">Stone Coated Steel</option>
                 <option value="new_tile">New Concrete Tile</option>
                 <option value="tile_relay">Tile Relay</option>
                 <option value="tpo">TPO</option>
@@ -672,7 +672,7 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
             <select class="tier-select" id="type-p2" onchange="onScopeChange('p2')" style="width:100%;margin-bottom:6px;background-color:#2E6DA4 !important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;color:#fff;font-weight:700;">
               <optgroup label="Single system">
                 <option value="" disabled selected hidden>Select Roof Type</option>
-            <option value="shingle"selected>Shingle</option>
+            <option value="shingle">Shingle</option>
                 <option value="stone_coated">Stone Coated Steel</option>
                 <option value="new_tile">New Concrete Tile</option>
                 <option value="tile_relay">Tile Relay</option>
@@ -709,7 +709,7 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
                 <option value="" disabled selected hidden>Select Roof Type</option>
             <option value="shingle">Shingle</option>
                 <option value="stone_coated">Stone Coated Steel</option>
-                <option value="new_tile"selected>New Concrete Tile</option>
+                <option value="new_tile">New Concrete Tile</option>
                 <option value="tile_relay">Tile Relay</option>
                 <option value="tpo">TPO</option>
                 <option value="silicone">Silicone Coating</option>
@@ -1383,11 +1383,11 @@ function initSetupUpgrades(){
 
 function syncCards(){
   ["p1","p2","p3"].forEach(p=>{
-    const type=document.getElementById("type-"+p)?.value||"shingle";
+    const type=document.getElementById("type-"+p)?.value||"";
     const price=document.getElementById("price-"+p)?.value;
     const typeEl=document.getElementById("so-type-"+p);
     const priceEl=document.getElementById("so-price-"+p);
-    if(typeEl)typeEl.textContent=TYPE_LABELS[type]||type;
+    if(typeEl)typeEl.textContent=type?(TYPE_LABELS[type]||type):"Select Roof Type";
     if(priceEl)priceEl.textContent=price&&parseFloat(price)>0?"$"+parseFloat(price).toLocaleString():"\u2014";
   });
 }
@@ -3229,7 +3229,7 @@ function openShareModal(){
 
 // Initialize upgrade pills on page load
 initSetupUpgrades();
-}</script>
+</script>
 </div>
 <!-- RESOURCES SLIDE-UP PANEL -->
 <div class="res-backdrop" id="res-backdrop" onclick="handleBackdropClick(event)">
