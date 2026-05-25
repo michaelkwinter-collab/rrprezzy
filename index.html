@@ -277,7 +277,7 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
 .col-price-num.shown{opacity:1;}
 .col-price-sub{font-size:13px;color:var(--text3);margin-top:5px;line-height:1.4;}
 .col-price-btn{width:100%;background:#1a3a6b;color:#fff;border:none;border-radius:var(--r);padding:18px;font-size:22px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:14px;}
-.pay-btn-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-top:10px;display:none;}
+.pay-btn-row{display:none;}
 .pay-btn-row.show{display:grid;}
 .pay-btn{padding:14px;border-radius:var(--r);border:2px solid var(--border2);font-size:17px;font-weight:700;cursor:pointer;font-family:inherit;background:var(--bg2);color:var(--text2);transition:all .15s;}
 .pay-btn.sel{background:#1a3a6b;color:#fff;border-color:#1a3a6b;}
@@ -316,7 +316,7 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
 .saved-item-footer{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:0.5px solid var(--border);}
 .saved-item-load{font-size:14px;font-weight:700;color:#185FA5;}
 .saved-item-del{font-size:13px;color:var(--text3);}
-.res-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;-webkit-backdrop-filter:blur(2px);display:flex;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;}
+.res-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:999;-webkit-backdrop-filter:blur(2px);display:flex;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;}
 .res-backdrop.open{opacity:1;pointer-events:auto;}
 .res-panel{position:absolute;bottom:0;left:0;right:0;margin:0 auto;width:min(900px,94%);height:68%;background:var(--bg2);border-radius:20px 20px 0 0;z-index:201;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1);overflow:visible;}
 .res-backdrop.open .res-panel{transform:translateY(0);}
@@ -1835,12 +1835,6 @@ function renderSummary(){
         <div class="col-price-num${d.priceRevealed?' shown':''}" id="price-num-${p}">$${(d.price+(d.addonTotal||0)).toLocaleString()}</div>
         <div class="col-financing" id="price-fin-${p}"></div>
         <button class="col-price-btn${d.priceRevealed?' hidden':''}" id="price-btn-${p}" onclick="revealPrice('${p}')">Pricing &rarr;</button>
-        <div class="pay-btn-row${d.priceRevealed?' show':''}" id="pay-row-${p}">
-          <button class="pay-btn${d.payMode==='cash'?' sel':''}" id="pay-cash-${p}" onclick="setPayMode('${p}','cash')">Check</button>
-          <button class="pay-btn${d.payMode==='cc'?' sel':''}" id="pay-cc-${p}" onclick="setPayMode('${p}','cc')">Credit Card</button>
-          <button class="pay-btn${d.payMode==='finance'?' sel':''}" id="pay-fin-${p}" onclick="openFinancingModal('${p}')">Monthly Payments</button>
-          <button class="pay-btn${d.payMode==='ninp'?' sel':''}" id="pay-ninp-${p}" onclick="setPayMode('${p}','ninp')">1-yr NINP</button>
-        </div>
       </div>`;
     cols.appendChild(col);
   });
@@ -1896,13 +1890,22 @@ function toggleMuteCol(p){
   if(btn){btn.style.opacity=muted?'1':'0.4';btn.innerHTML=muted?'&#9678;':'&#9673;';btn.title=muted?'Unmute':'Mute this option';}
 }
 
+function setPayModeAll(mode){
+  visiblePrices.forEach(p=>{ if(pitchData[p]?.priceRevealed) setPayMode(p,mode); });
+  renderSummaryCtrls();
+}
+function setPayModeAllFinance(){
+  setPayModeAll('finance');
+  // Open financing modal for currentPrice
+  const p=visiblePrices.find(pp=>pitchData[pp]?.priceRevealed)||currentPrice;
+  openFinancingModal(p);
+}
+
 function revealPrice(p){
   if(pitchData[p]){pitchData[p].priceRevealed=true;pitchData[p].payMode='ninp';}
   document.getElementById("price-num-"+p)?.classList.add("shown");
   const btn=document.getElementById("price-btn-"+p);
   if(btn)btn.classList.add("hidden");
-  const row=document.getElementById("pay-row-"+p);
-  if(row)row.classList.add("show");
   setPayMode(p,'ninp');
   renderSummaryCtrls();
 }
@@ -1925,7 +1928,7 @@ function setPayMode(p,mode){
     if(finEl){finEl.style.display="none";finEl.textContent="";}
   } else if(mode==="ninp"){
     if(priceEl)priceEl.textContent="$"+ninpPrice.toLocaleString();
-    if(finEl){finEl.style.display="block";finEl.textContent="1-Year No Interest, No Payment";}
+    if(finEl){finEl.style.display="none";finEl.textContent="";}
   } else {
     if(priceEl)priceEl.textContent="$"+basePrice.toLocaleString();
     if(finEl){finEl.style.display="none";finEl.textContent="";}
@@ -1953,9 +1956,28 @@ function closeFinancingModal(){
 
 
 function renderSummaryCtrls(){
+  const anyRevealed=visiblePrices.some(p=>pitchData[p]?.priceRevealed);
   const allRevealed=visiblePrices.every(p=>pitchData[p]?.priceRevealed);
   const ctrls=document.getElementById("summary-ctrls");
-  if(ctrls)ctrls.innerHTML="";
+
+  // Global payment bar
+  const globalMode = anyRevealed ? (pitchData[visiblePrices.find(p=>pitchData[p]?.priceRevealed)]?.payMode||'ninp') : null;
+  if(ctrls){
+    if(anyRevealed){
+      ctrls.innerHTML=`
+        <div style="width:100%;background:var(--bg2);border-radius:var(--r);padding:14px 16px;margin-bottom:4px;">
+          <div style="font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;">How are we paying today?</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;">
+            <button class="pay-btn${globalMode==='ninp'?' sel':''}" onclick="setPayModeAll('ninp')">1-yr NINP</button>
+            <button class="pay-btn${globalMode==='cash'?' sel':''}" onclick="setPayModeAll('cash')">Check</button>
+            <button class="pay-btn${globalMode==='cc'?' sel':''}" onclick="setPayModeAll('cc')">Credit Card</button>
+            <button class="pay-btn${globalMode==='finance'?' sel':''}" onclick="setPayModeAllFinance()">Monthly Payments</button>
+          </div>
+        </div>`;
+    } else {
+      ctrls.innerHTML="";
+    }
+  }
   // Also push option/addons buttons to topbar
   const tbBtns=document.getElementById('summary-topbar-btns');
   if(tbBtns){
