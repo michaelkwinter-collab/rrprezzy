@@ -814,7 +814,7 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
     <div style="max-width:700px;margin:0 auto;">
 
       <!-- Financing Card -->
-      <div class="res-card" style="margin-bottom:14px;" onclick="toggleResourceGuide('res-guide-financing')">
+      <div class="res-card" style="margin-bottom:14px;" onclick="openFinancingFromResources()">
         <div class="res-card-icon" style="background:#EEEDFE;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#534AB7" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
         <div class="res-card-tag" style="color:#534AB7;">Payment options</div>
         <div class="res-card-title">Making it work financially</div>
@@ -824,34 +824,31 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
       <div id="res-guide-financing" style="display:none;background:var(--bg);border-radius:var(--r);padding:16px;margin-bottom:14px;"></div>
 
       <!-- Comparing Options -->
-      <div class="res-card" style="margin-bottom:14px;" onclick="toggleResourceGuide('res-guide-comparing')">
+      <div class="res-card" style="margin-bottom:14px;" onclick="openGuide('comparing')">
         <div class="res-card-icon" style="background:#E6F1FB;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#185FA5" stroke-width="1.8"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/><path d="M9 12h6M9 16h4"/></svg></div>
         <div class="res-card-tag" style="color:#185FA5;">Comparing options</div>
         <div class="res-card-title">What to look for in a roofing bid</div>
         <div class="res-card-desc">Red flags, green flags, and what separates a real bid from a cheap one.</div>
         <div class="res-card-arrow" style="color:#185FA5;">View guide &rarr;</div>
       </div>
-      <div id="res-guide-comparing" style="display:none;background:var(--bg);border-radius:var(--r);padding:16px;margin-bottom:14px;"></div>
 
       <!-- ROI -->
-      <div class="res-card" style="margin-bottom:14px;" onclick="toggleResourceGuide('res-guide-roi')">
+      <div class="res-card" style="margin-bottom:14px;" onclick="openGuide('roi')">
         <div class="res-card-icon" style="background:#EAF3DE;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B6D11" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
         <div class="res-card-tag" style="color:#3B6D11;">Home value</div>
         <div class="res-card-title">What happens at the closing table</div>
         <div class="res-card-desc">How a new roof changes the outcome when you sell.</div>
         <div class="res-card-arrow" style="color:#3B6D11;">View guide &rarr;</div>
       </div>
-      <div id="res-guide-roi" style="display:none;background:var(--bg);border-radius:var(--r);padding:16px;margin-bottom:14px;"></div>
 
       <!-- Repairs -->
-      <div class="res-card" style="margin-bottom:14px;" onclick="toggleResourceGuide('res-guide-repairs')">
+      <div class="res-card" style="margin-bottom:14px;" onclick="openGuide('repairs')">
         <div class="res-card-icon" style="background:#FAEEDA;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#854F0B" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
         <div class="res-card-tag" style="color:#854F0B;">Cost of repairs</div>
         <div class="res-card-title">The repair trap &mdash; where the money really goes</div>
         <div class="res-card-desc">Two paths. Same money spent. Very different outcomes.</div>
         <div class="res-card-arrow" style="color:#854F0B;">View guide &rarr;</div>
       </div>
-      <div id="res-guide-repairs" style="display:none;background:var(--bg);border-radius:var(--r);padding:16px;margin-bottom:14px;"></div>
 
     </div>
   </div>
@@ -3245,6 +3242,10 @@ function closeResources(){
   const bd=document.getElementById('res-backdrop');
   if(bd){bd.classList.remove('open');bd.style.cssText='';}
   document.querySelectorAll('.guide-panel').forEach(g=>g.classList.remove('open'));
+}
+function openFinancingFromResources(){
+  const p=visiblePrices.find(pp=>pitchData[pp]?.priceRevealed)||visiblePrices[0]||'p1';
+  openFinancingModal(p);
 }
 function openResourcesScreen(){
   show('s-resources');
