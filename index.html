@@ -1716,9 +1716,8 @@ function goToSummary(){
   saveAddonState(currentPrice);
   savePitchData();
   if(!visiblePrices.includes(currentPrice))visiblePrices.push(currentPrice);
-  try{renderSummary();}catch(e){alert("renderSummary error: "+e.message);return;}
-  try{show("s-summary");}catch(e){alert("show error: "+e.message);return;}
-  alert("success - active="+document.querySelector(".screen.active")?.id);
+  renderSummary();
+  show("s-summary");
   document.getElementById("summary-body").scrollTop=0;
   const customer=document.getElementById("customer-name")?.value||"";
   const el=document.getElementById("footer-customer-summary");
@@ -3073,10 +3072,18 @@ function refreshPitchFromSetup(p){
   const upgrades=[];
   (scope?.upgrades||[]).forEach(u=>{if(preSelected&&preSelected.has(u.id))upgrades.push(u);});
   const existingEdits=pitchData[p]?.scopeEdits||{};
+  const existingRevealed=pitchData[p]?.priceRevealed||false;
+  const existingPayMode=pitchData[p]?.payMode||null;
+  const existingAddonTotal=pitchData[p]?.addonTotal||0;
+  const existingAddonLines=pitchData[p]?.addonLines||[];
   if(!pitchData[p])pitchData[p]={priceRevealed:false,payMode:null,addonTotal:0,addonLines:[]};
   pitchData[p].type=type;pitchData[p].price=price;pitchData[p].label=customLabel;
   pitchData[p].scope=scope;pitchData[p].selectedUpgrades=upgrades;
   pitchData[p].scopeEdits=existingEdits;
+  pitchData[p].priceRevealed=existingRevealed;
+  pitchData[p].payMode=existingPayMode;
+  pitchData[p].addonTotal=existingAddonTotal;
+  pitchData[p].addonLines=existingAddonLines;
 }
 
 // ── SCOPE ITEM INLINE EDITING ──
