@@ -1838,6 +1838,11 @@ function renderSummary(){
       </div>`;
     cols.appendChild(col);
   });
+  // Re-apply saved payMode to all revealed prices so prices display correctly
+  visiblePrices.forEach(p=>{
+    const d=pitchData[p];
+    if(d?.priceRevealed && d?.payMode) setPayMode(p, d.payMode);
+  });
   renderSummaryCtrls();
 }
 
