@@ -808,45 +808,366 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
 <div id="s-resources" class="screen">
   <div class="topbar">
     <div class="tright">
-      <button class="btn" onclick="show('s-summary')">&larr; Back</button>
+      <button class="btn" onclick="show('s-summary')">&larr; Summary</button>
     </div>
   </div>
   <div style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px;background:var(--bg2);">
     <div style="max-width:700px;margin:0 auto;display:flex;flex-direction:column;gap:14px;">
 
-      <button class="res-card" style="width:100%;text-align:left;font-family:inherit;border-radius:var(--rlg);padding:18px;cursor:pointer;background:var(--bg);border:0.5px solid var(--border);" onclick="openFinancingFromResources()">
+      <button onclick="openFinancingFromResources()" style="width:100%;text-align:left;font-family:inherit;border-radius:var(--rlg);padding:18px;cursor:pointer;background:var(--bg);border:0.5px solid var(--border);">
         <div class="res-card-icon" style="background:#EEEDFE;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#534AB7" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
         <div class="res-card-tag" style="color:#534AB7;">Payment options</div>
         <div class="res-card-title">Making it work financially</div>
         <div class="res-card-desc">Full loan breakdown with prepayment calculator.</div>
-        <div class="res-card-arrow" style="color:#534AB7;">View guide &rarr;</div>
+        <div class="res-card-arrow" style="color:#534AB7;">View &rarr;</div>
       </button>
 
-      <button class="res-card" style="width:100%;text-align:left;font-family:inherit;border-radius:var(--rlg);padding:18px;cursor:pointer;background:var(--bg);border:0.5px solid var(--border);" onclick="openGuide('comparing')">
+      <button onclick="show('s-res-comparing')" style="width:100%;text-align:left;font-family:inherit;border-radius:var(--rlg);padding:18px;cursor:pointer;background:var(--bg);border:0.5px solid var(--border);">
         <div class="res-card-icon" style="background:#E6F1FB;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#185FA5" stroke-width="1.8"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/><path d="M9 12h6M9 16h4"/></svg></div>
         <div class="res-card-tag" style="color:#185FA5;">Comparing options</div>
         <div class="res-card-title">What to look for in a roofing bid</div>
         <div class="res-card-desc">Red flags, green flags, and what separates a real bid from a cheap one.</div>
-        <div class="res-card-arrow" style="color:#185FA5;">View guide &rarr;</div>
+        <div class="res-card-arrow" style="color:#185FA5;">View &rarr;</div>
       </button>
 
-      <button class="res-card" style="width:100%;text-align:left;font-family:inherit;border-radius:var(--rlg);padding:18px;cursor:pointer;background:var(--bg);border:0.5px solid var(--border);" onclick="openGuide('roi')">
+      <button onclick="show('s-res-roi')" style="width:100%;text-align:left;font-family:inherit;border-radius:var(--rlg);padding:18px;cursor:pointer;background:var(--bg);border:0.5px solid var(--border);">
         <div class="res-card-icon" style="background:#EAF3DE;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B6D11" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
         <div class="res-card-tag" style="color:#3B6D11;">Home value</div>
         <div class="res-card-title">What happens at the closing table</div>
         <div class="res-card-desc">How a new roof changes the outcome when you sell.</div>
-        <div class="res-card-arrow" style="color:#3B6D11;">View guide &rarr;</div>
+        <div class="res-card-arrow" style="color:#3B6D11;">View &rarr;</div>
       </button>
 
-      <button class="res-card" style="width:100%;text-align:left;font-family:inherit;border-radius:var(--rlg);padding:18px;cursor:pointer;background:var(--bg);border:0.5px solid var(--border);" onclick="openGuide('repairs')">
+      <button onclick="show('s-res-repairs')" style="width:100%;text-align:left;font-family:inherit;border-radius:var(--rlg);padding:18px;cursor:pointer;background:var(--bg);border:0.5px solid var(--border);">
         <div class="res-card-icon" style="background:#FAEEDA;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#854F0B" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
         <div class="res-card-tag" style="color:#854F0B;">Cost of repairs</div>
         <div class="res-card-title">The repair trap &mdash; where the money really goes</div>
         <div class="res-card-desc">Two paths. Same money spent. Very different outcomes.</div>
-        <div class="res-card-arrow" style="color:#854F0B;">View guide &rarr;</div>
+        <div class="res-card-arrow" style="color:#854F0B;">View &rarr;</div>
       </button>
 
     </div>
+  </div>
+</div>
+
+
+<div id="s-res-comparing" class="screen">
+  <div class="topbar">
+    <div class="tright">
+      <button class="btn" onclick="show('s-resources')">&larr; Back</button>
+    </div>
+  </div>
+  <div style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;">
+    
+
+    <!-- RED + GREEN SIDE BY SIDE -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+
+      <!-- RED FLAGS -->
+      <div class="guide-section">
+        <div class="guide-sec-hdr" style="background:#fff5f5;">
+          <div style="display:flex;align-items:center;gap:7px;">
+            <div style="width:22px;height:22px;background:#A32D2D;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </div>
+            <div><div class="guide-sec-lbl" style="color:#A32D2D;">Red flags</div><div class="guide-sec-title">Watch out for these</div></div>
+          </div>
+        </div>
+        <div class="guide-flag-row">
+          <div class="guide-flag-icon" style="background:#FCEBEB;"><svg viewBox="0 0 24 24" fill="none" stroke="#A32D2D" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+          <div><div class="guide-flag-title">Lighter underlayment</div><div class="guide-flag-desc">15# felt vs. synthetic or PSU-30 — the biggest invisible cut in a cheap bid.</div></div>
+        </div>
+        <div class="guide-flag-row">
+          <div class="guide-flag-icon" style="background:#FCEBEB;"><svg viewBox="0 0 24 24" fill="none" stroke="#A32D2D" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+          <div><div class="guide-flag-title">Subcontracted labor</div><div class="guide-flag-desc">Subs have no accountability to the company whose name is on the contract.</div></div>
+        </div>
+
+        <div class="guide-flag-row">
+          <div class="guide-flag-icon" style="background:#FCEBEB;"><svg viewBox="0 0 24 24" fill="none" stroke="#A32D2D" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+          <div><div class="guide-flag-title">Vague scope of work</div><div class="guide-flag-desc">"Full replacement" with no material specs means they quote the minimum once on your roof.</div></div>
+        </div>
+        <div class="guide-flag-row">
+          <div class="guide-flag-icon" style="background:#FCEBEB;"><svg viewBox="0 0 24 24" fill="none" stroke="#A32D2D" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+          <div><div class="guide-flag-title">Low-trust labor warranty</div><div class="guide-flag-desc">A warranty from a company that may not exist in 3 years isn't protection.</div></div>
+        </div>
+        <div class="guide-callout"><div class="guide-callout-dot" style="background:#A32D2D;"></div><div class="guide-callout-text">The cheapest bid rarely stays cheap — thin underlayment and subs show up as leaks within 5 years.</div></div>
+      </div>
+
+      <!-- GREEN FLAGS -->
+      <div class="guide-section">
+        <div class="guide-sec-hdr" style="background:#f0faf0;">
+          <div style="display:flex;align-items:center;gap:7px;">
+            <div style="width:22px;height:22px;background:#3B6D11;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div><div class="guide-sec-lbl" style="color:#3B6D11;">Green flags</div><div class="guide-sec-title">What a solid bid looks like</div></div>
+          </div>
+        </div>
+        <div class="guide-flag-row">
+          <div class="guide-flag-icon" style="background:#EAF3DE;"><svg viewBox="0 0 24 24" fill="none" stroke="#3B6D11" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div><div class="guide-flag-title">Clear, extensive scope</div><div class="guide-flag-desc">Every material named and specced — underlayment, shingles, flashing, ridge. No surprises.</div></div>
+        </div>
+        <div class="guide-flag-row">
+          <div class="guide-flag-icon" style="background:#EAF3DE;"><svg viewBox="0 0 24 24" fill="none" stroke="#3B6D11" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div><div class="guide-flag-title">In-house, licensed & insured</div><div class="guide-flag-desc">Ask for the license number — a real company hands it over without hesitation.</div></div>
+        </div>
+        <div class="guide-flag-row">
+          <div class="guide-flag-icon" style="background:#EAF3DE;"><svg viewBox="0 0 24 24" fill="none" stroke="#3B6D11" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div><div class="guide-flag-title">Manufacturer-certified</div><div class="guide-flag-desc">Certification unlocks 50-year warranties vs. 25 for non-certified installs of the same shingle.</div></div>
+        </div>
+        <div class="guide-flag-row">
+          <div class="guide-flag-icon" style="background:#EAF3DE;"><svg viewBox="0 0 24 24" fill="none" stroke="#3B6D11" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div><div class="guide-flag-title">High-trust labor warranty</div><div class="guide-flag-desc">A company that stands behind their work long-term — we plan on being around.</div></div>
+        </div>
+        <div class="guide-callout"><div class="guide-callout-dot" style="background:#3B6D11;"></div><div class="guide-callout-text">A contractor who answers every question without hesitation has nothing to hide.</div></div>
+      </div>
+
+    </div>
+
+  </div>
+
+  </div>
+</div>
+
+<div id="s-res-roi" class="screen">
+  <div class="topbar">
+    <div class="tright">
+      <button class="btn" onclick="show('s-resources')">&larr; Back</button>
+    </div>
+  </div>
+  <div style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;">
+    
+    <div id="roi-banner" style="background:#0f2a4f;border-radius:var(--rlg);padding:14px 18px;display:flex;align-items:center;gap:16px;">
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:3px;" id="roi-banner-label">Option 1</div>
+        <div style="font-size:26px;font-weight:700;color:#fff;" id="roi-price">&#8212;</div>
+      </div>
+      <div style="width:0.5px;height:36px;background:rgba(255,255,255,0.15);"></div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.55);line-height:1.6;">All numbers below are based on this investment</div>
+    </div>
+    <div style="display:flex;background:var(--bg);border-radius:var(--rlg);border:0.5px solid var(--border);overflow:hidden;">
+      <div id="roi-tab-1" onclick="setRoiTab(1)" style="flex:1;padding:11px 8px;text-align:center;font-size:13px;font-weight:700;cursor:pointer;background:#1a3a6b;color:#fff;border-right:0.5px solid var(--border);">Selling in 1&#8211;3 yrs</div>
+      <div id="roi-tab-2" onclick="setRoiTab(2)" style="flex:1;padding:11px 8px;text-align:center;font-size:13px;font-weight:700;cursor:pointer;color:var(--text2);border-right:0.5px solid var(--border);">Selling in 4&#8211;7 yrs</div>
+      <div id="roi-tab-3" onclick="setRoiTab(3)" style="flex:1;padding:11px 8px;text-align:center;font-size:13px;font-weight:700;cursor:pointer;color:var(--text2);">Keeping long term</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="guide-section">
+        <div class="guide-sec-hdr" style="background:#fff5f5;border-bottom:0.5px solid #f0c0c0;">
+          <div style="display:flex;align-items:center;gap:7px;">
+            <div style="width:22px;height:22px;background:#A32D2D;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+            <div><div class="guide-sec-lbl" style="color:#A32D2D;">Without new roof</div><div class="guide-sec-title">What buyers see</div></div>
+          </div>
+        </div>
+        <div class="guide-flag-row"><div><div class="guide-flag-title">Inspector flags roof</div><div class="guide-flag-desc" id="roi-w-inspect">Highly likely</div></div></div>
+        <div class="guide-flag-row"><div><div class="guide-flag-title">Buyer credit demand</div><div class="guide-flag-desc" style="color:#A32D2D;font-weight:700;font-size:15px;" id="roi-w-credit">&#8212;</div></div></div>
+        <div class="guide-flag-row"><div><div class="guide-flag-title">Deal risk</div><div class="guide-flag-desc" id="roi-w-deal">Deal may fall apart</div></div></div>
+        <div class="guide-flag-row"><div><div class="guide-flag-title">Listing position</div><div class="guide-flag-desc" id="roi-w-list">"Priced to reflect roof"</div></div></div>
+      </div>
+      <div class="guide-section">
+        <div class="guide-sec-hdr" style="background:#f0faf0;border-bottom:0.5px solid #c0dd97;">
+          <div style="display:flex;align-items:center;gap:7px;">
+            <div style="width:22px;height:22px;background:#3B6D11;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div><div class="guide-sec-lbl" style="color:#3B6D11;">With new roof</div><div class="guide-sec-title">What buyers see</div></div>
+          </div>
+        </div>
+        <div class="guide-flag-row"><div><div class="guide-flag-title">Inspector flags roof</div><div class="guide-flag-desc" id="roi-g-inspect">Nothing to flag</div></div></div>
+        <div class="guide-flag-row"><div><div class="guide-flag-title">Buyer credit demand</div><div class="guide-flag-desc" style="color:#3B6D11;font-weight:700;font-size:15px;">$0</div></div></div>
+        <div class="guide-flag-row"><div><div class="guide-flag-title">Sell price premium</div><div class="guide-flag-desc" style="color:#3B6D11;font-weight:700;font-size:15px;" id="roi-g-premium">&#8212;</div></div></div>
+        <div class="guide-flag-row"><div><div class="guide-flag-title">Listing position</div><div class="guide-flag-desc" id="roi-g-list">"Brand new roof"</div></div></div>
+      </div>
+    </div>
+    <div class="guide-section" style="text-align:center;padding:18px;">
+      <div style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text2);margin-bottom:6px;">Difference at the closing table</div>
+      <div style="font-size:30px;font-weight:700;color:#185FA5;" id="roi-swing">&#8212;</div>
+      <div style="font-size:13px;color:var(--text2);margin-top:8px;line-height:1.6;" id="roi-swing-sub"></div>
+    </div>
+  </div>
+
+  </div>
+</div>
+
+<div id="s-res-repairs" class="screen">
+  <div class="topbar">
+    <div class="tright">
+      <button class="btn" onclick="show('s-resources')">&larr; Back</button>
+    </div>
+  </div>
+  <div style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;">
+    
+    <div class="guide-section" style="padding:16px 18px 22px;">
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div>
+          <div style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--text2);margin-bottom:8px;">Which option?</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;" id="rep-opt-tabs">
+            <div class="guide-tab sel" onclick="setRepOpt(0)" id="rep-opt-0">Option 1<span class="guide-tab-sub" id="rep-opt-price-0">&#8212;</span></div>
+            <div class="guide-tab" onclick="setRepOpt(1)" id="rep-opt-1">Option 2<span class="guide-tab-sub" id="rep-opt-price-1">&#8212;</span></div>
+            <div class="guide-tab" onclick="setRepOpt(2)" id="rep-opt-2">Option 3<span class="guide-tab-sub" id="rep-opt-price-2">&#8212;</span></div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="font-size:14px;color:var(--text2);flex:1;">Estimated repair quote</div>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span style="font-size:15px;color:var(--text2);">$</span>
+            <input type="number" value="5000" min="500" max="25000" step="500"
+              style="width:120px;padding:8px 10px;font-size:16px;font-weight:700;border:1px solid var(--border2);border-radius:var(--r);background:var(--bg2);color:var(--text);font-family:inherit;"
+              id="rep-repair-input" oninput="calcRepairs()">
+          </div>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--text2);margin-bottom:8px;">Loan term &#8212; GoGreen CCCU (FICO 700+)</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;" id="rep-loan-tabs">
+            <div class="guide-tab" onclick="setRepLoan(0)">30 mo<span class="guide-tab-sub">3.98%</span></div>
+            <div class="guide-tab" onclick="setRepLoan(1)">5 yr<span class="guide-tab-sub">5.38%</span></div>
+            <div class="guide-tab" onclick="setRepLoan(2)">10 yr<span class="guide-tab-sub">6.38%</span></div>
+            <div class="guide-tab sel" onclick="setRepLoan(3)">15 yr<span class="guide-tab-sub">7.38%</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="guide-section">
+        <div class="guide-sec-hdr" style="background:#fff5f5;border-bottom:0.5px solid #f0c0c0;">
+          <div style="display:flex;align-items:center;gap:7px;">
+            <div style="width:22px;height:22px;background:#A32D2D;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+            <div><div class="guide-sec-lbl" style="color:#A32D2D;">Repair now</div><div class="guide-sec-title">Then reroof later</div></div>
+          </div>
+        </div>
+        <div class="guide-flag-row"><div><div class="guide-flag-title">Repair cost today</div><div class="guide-flag-desc" style="color:#A32D2D;font-weight:700;font-size:15px;" id="rep-r-repair">&#8212;</div></div></div>
+        <div class="guide-flag-row"><div><div class="guide-flag-title">Full reroof still needed in 3&#8211;5 yrs</div><div class="guide-flag-desc" style="color:#A32D2D;font-weight:700;font-size:15px;" id="rep-r-reroof">&#8212;</div></div></div>
+        <div class="guide-flag-row"><div><div class="guide-flag-title">Repair money recovered at sale</div><div class="guide-flag-desc" style="color:#A32D2D;">$0 &#8212; fully wasted</div></div></div>
+        <div class="guide-flag-row"><div><div class="guide-flag-title">Inspection risk now</div><div class="guide-flag-desc" style="color:#A32D2D;">Still flagged</div></div></div>
+        <div class="guide-callout" style="border-top:1.5px solid #f0c0c0;">
+          <div class="guide-callout-dot" style="background:#A32D2D;"></div>
+          <div style="font-size:15px;font-weight:700;color:#A32D2D;" id="rep-r-total">Total: &#8212;</div>
+        </div>
+      </div>
+      <div class="guide-section">
+        <div class="guide-sec-hdr" style="background:#f0faf0;border-bottom:0.5px solid #c0dd97;">
+          <div style="display:flex;align-items:center;gap:7px;">
+            <div style="width:22px;height:22px;background:#3B6D11;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div><div class="guide-sec-lbl" style="color:#3B6D11;">Finance now</div><div class="guide-sec-title">GoGreen CCCU loan</div></div>
+          </div>
+        </div>
+        <div class="guide-flag-row"><div><div class="guide-flag-title">Monthly payment</div><div class="guide-flag-desc" style="color:#3B6D11;font-weight:700;font-size:15px;" id="rep-g-monthly">&#8212;</div></div></div>
+        <div class="guide-flag-row"><div><div class="guide-flag-title">Term &amp; rate</div><div class="guide-flag-desc" style="color:#3B6D11;font-weight:700;" id="rep-g-term">&#8212;</div></div></div>
+        <div class="guide-flag-row"><div><div class="guide-flag-title">Total interest paid</div><div class="guide-flag-desc" style="color:#854F0B;font-weight:700;font-size:15px;" id="rep-g-interest">&#8212;</div></div></div>
+        <div class="guide-flag-row"><div><div class="guide-flag-title">Interest vs. repair</div><div class="guide-flag-desc" id="rep-g-compare">&#8212;</div></div></div>
+        <div class="guide-callout" style="border-top:1.5px solid #c0dd97;">
+          <div class="guide-callout-dot" style="background:#3B6D11;"></div>
+          <div style="font-size:13px;color:#3B6D11;font-style:italic;">New roof + full warranty + clean inspection</div>
+        </div>
+      </div>
+    </div>
+    <div class="guide-section" style="text-align:center;padding:18px;">
+      <div style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text2);margin-bottom:6px;">The bottom line</div>
+      <div style="font-size:24px;font-weight:700;color:#185FA5;margin-bottom:8px;" id="rep-verdict-num">&#8212;</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.6;" id="rep-verdict-sub">&#8212;</div>
+    </div>
+  </div>
+
+  </div>
+</div>
+
+<div id="s-res-financing" class="screen">
+  <div class="topbar">
+    <div class="tright">
+      <button class="btn" onclick="show('s-resources')">&larr; Back</button>
+    </div>
+  </div>
+  <div style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;">
+    
+
+    <!-- Selectors -->
+    <div class="guide-section" style="padding:16px 18px 22px;">
+      <div style="display:flex;flex-direction:column;gap:16px;">
+
+        <div>
+          <div style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--text2);margin-bottom:8px;">Which option?</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;" id="fin-opt-tabs">
+            <div class="guide-tab sel" onclick="setFinOpt(0)" id="fin-opt-0" style="font-size:17px;padding:12px 18px;">Option 1<span class="guide-tab-sub" id="fin-opt-price-0">&#8212;</span></div>
+            <div class="guide-tab" onclick="setFinOpt(1)" id="fin-opt-1" style="font-size:17px;padding:12px 18px;">Option 2<span class="guide-tab-sub" id="fin-opt-price-1">&#8212;</span></div>
+            <div class="guide-tab" onclick="setFinOpt(2)" id="fin-opt-2" style="font-size:17px;padding:12px 18px;">Option 3<span class="guide-tab-sub" id="fin-opt-price-2">&#8212;</span></div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div>
+            <div style="font-size:14px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#185FA5;margin-bottom:10px;">GoGreen CCCU</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;" id="fin-loan-tabs">
+              <div class="guide-tab" onclick="setFinLoan(0)" style="font-size:17px;padding:12px 18px;">30 mo<span class="guide-tab-sub">3.98%</span></div>
+              <div class="guide-tab" onclick="setFinLoan(1)" style="font-size:17px;padding:12px 18px;">5 yr<span class="guide-tab-sub">5.38%</span></div>
+              <div class="guide-tab" onclick="setFinLoan(2)" style="font-size:17px;padding:12px 18px;">10 yr<span class="guide-tab-sub">6.38%</span></div>
+              <div class="guide-tab sel" onclick="setFinLoan(3)" style="font-size:17px;padding:12px 18px;">15 yr<span class="guide-tab-sub">7.38%</span></div>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:14px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#534AB7;margin-bottom:10px;">Service Finance</div>
+            <div style="display:flex;gap:6px;" id="fin-sf-tabs">
+              <div class="guide-tab" onclick="setFinSF()" style="font-size:17px;padding:12px 18px;border-color:#534AB7;" id="fin-sf-tab">10 yr<span class="guide-tab-sub">9.99%</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div class="guide-section" style="padding:14px;text-align:center;">
+        <div style="font-size:13px;color:var(--text2);margin-bottom:6px;">Monthly payment</div>
+        <div style="font-size:28px;font-weight:700;color:#185FA5;" id="fin-monthly">&#8212;</div>
+      </div>
+      <div class="guide-section" style="padding:14px;text-align:center;">
+        <div style="font-size:13px;color:var(--text2);margin-bottom:6px;">Term &amp; rate</div>
+        <div style="font-size:19px;font-weight:700;color:var(--text);" id="fin-term">&#8212;</div>
+      </div>
+      <div class="guide-section" style="padding:14px;text-align:center;">
+        <div style="font-size:13px;color:var(--text2);margin-bottom:6px;">Total interest</div>
+        <div style="font-size:28px;font-weight:700;color:#854F0B;" id="fin-interest">&#8212;</div>
+      </div>
+      <div class="guide-section" style="padding:14px;text-align:center;">
+        <div style="font-size:13px;color:var(--text2);margin-bottom:6px;">Total paid</div>
+        <div style="font-size:28px;font-weight:700;color:var(--text);" id="fin-total-paid">&#8212;</div>
+      </div>
+    </div>
+
+    <!-- Prepayment calculator -->
+    <div class="guide-section">
+      <div style="background:#E6F1FB;"padding:12px 16px;border-bottom:0.5px solid #B5D4F4;">
+        <div style="font-size:15px;font-weight:700;color:#0C447C;">No prepayment penalty &#8212; pay it off faster</div>
+        <div style="font-size:12px;color:#185FA5;margin-top:2px;">Increase your monthly payment to save on interest</div>
+      </div>
+      <div style="padding:14px 16px 20px;display:flex;flex-direction:column;gap:14px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="font-size:14px;font-weight:700;color:var(--text);flex:1;">Increasing payment &#8212; Interest Avoided</div>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span style="font-size:15px;color:var(--text2);">$</span>
+            <input type="number" min="0" step="50"
+              style="width:120px;padding:8px 10px;font-size:16px;font-weight:700;border:1px solid var(--border2);border-radius:var(--r);background:var(--bg2);color:var(--text);font-family:inherit;"
+              id="fin-extra-input" oninput="calcFinancing()" placeholder="500">
+            <span style="font-size:14px;color:var(--text2);">/mo</span>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+          <div style="background:var(--bg2);border-radius:var(--r);padding:14px 10px;text-align:center;border:0.5px solid var(--border);">
+            <div style="font-size:13px;color:var(--text2);margin-bottom:6px;">Paid off in</div>
+            <div style="font-size:20px;font-weight:700;color:#185FA5;" id="fin-payoff-yrs">&#8212;</div>
+          </div>
+          <div style="background:var(--bg2);border-radius:var(--r);padding:14px 10px;text-align:center;border:0.5px solid var(--border);">
+            <div style="font-size:13px;color:var(--text2);margin-bottom:6px;">Interest paid</div>
+            <div style="font-size:20px;font-weight:700;color:#854F0B;" id="fin-payoff-interest">&#8212;</div>
+          </div>
+          <div style="background:var(--bg2);border-radius:var(--r);padding:14px 10px;text-align:center;border:0.5px solid var(--border);">
+            <div style="font-size:13px;color:var(--text2);margin-bottom:6px;">Time saved</div>
+            <div style="font-size:20px;font-weight:700;color:#3B6D11;" id="fin-payoff-saved">&#8212;</div>
+          </div>
+        </div>
+        
+        </div>
+      </div>
+    </div>
+
+  
   </div>
 </div>
 
@@ -3241,13 +3562,14 @@ function closeResources(){
 }
 function openFinancingFromResources(){
   const p=visiblePrices.find(pp=>pitchData[pp]?.priceRevealed)||visiblePrices[0]||'p1';
-  openFinancingModal(p);
+  currentPrice=p;
+  finOptIdx=['p1','p2','p3'].indexOf(p);
+  if(finOptIdx<0)finOptIdx=0;
+  initFinancing();
+  show('s-res-financing');
 }
 function openResourcesScreen(){
   show('s-resources');
-  // Pre-render financing guide with first revealed price
-  const p=visiblePrices.find(pp=>pitchData[pp]?.priceRevealed)||visiblePrices[0]||'p1';
-  renderFinancingInline(p);
 }
 function toggleResourceGuide(id){
   const el=document.getElementById(id);
