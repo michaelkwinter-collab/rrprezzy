@@ -3151,10 +3151,10 @@ function calcRepairs(){
   set('rep-verdict-num', fmt(repair)+' repair ≈ '+fmt(interest)+' interest');
   const repairPlusReroof = repair + roofPrice;
   const financePlusInterest = roofPrice + interest;
-  const diff = Math.round(Math.abs(repairPlusReroof - financePlusInterest));
+  const verdictDiff = Math.round(Math.abs(repairPlusReroof - financePlusInterest));
   set('rep-verdict-sub', repairPlusReroof >= financePlusInterest
-    ? 'Paying '+fmt(repair)+' to repair now and still reroofing later costs '+fmt(diff)+' MORE than financing the reroof today — and you get a brand new roof, full warranty, and clean inspection.'
-    : 'Financing the reroof today costs '+fmt(diff)+' more than repair + reroof later — but you get a brand new roof, full warranty, and clean inspection starting now.');
+    ? 'Paying '+fmt(repair)+' to repair now and still reroofing later costs '+fmt(verdictDiff)+' MORE than financing the reroof today — and you get a brand new roof, full warranty, and clean inspection.'
+    : 'Financing the reroof today costs '+fmt(verdictDiff)+' more than repair + reroof later — but you get a brand new roof, full warranty, and clean inspection starting now.');
 }
 let roiTab=1;
 function setRoiTab(n){
