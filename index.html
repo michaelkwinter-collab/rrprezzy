@@ -1907,11 +1907,14 @@ function setPayModeAllFinance(){
 }
 
 function revealPrice(p){
-  if(pitchData[p]){pitchData[p].priceRevealed=true;pitchData[p].payMode='ninp';}
+  // Use the currently selected global payMode if one exists, otherwise default to ninp
+  const existingMode = visiblePrices.find(pp=>pitchData[pp]?.priceRevealed&&pitchData[pp]?.payMode);
+  const mode = existingMode ? pitchData[existingMode].payMode : 'ninp';
+  if(pitchData[p]){pitchData[p].priceRevealed=true;pitchData[p].payMode=mode;}
   document.getElementById("price-num-"+p)?.classList.add("shown");
   const btn=document.getElementById("price-btn-"+p);
   if(btn)btn.classList.add("hidden");
-  setPayMode(p,'ninp');
+  setPayMode(p,mode);
   renderSummaryCtrls();
 }
 
