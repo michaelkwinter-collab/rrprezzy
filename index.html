@@ -253,7 +253,8 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
 .col-items{padding:0 18px 16px;border-top:0.5px solid var(--border);flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;min-height:0;}
 .editable-item{cursor:pointer;-webkit-user-select:none;background:none;border:none;width:100%;text-align:left;font-family:inherit;padding:0;}
 .editable-item:active{background:rgba(24,95,165,0.08);border-radius:6px;}
-.scope-edit-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:400;display:flex;align-items:center;justify-content:center;-webkit-backdrop-filter:blur(2px);}
+.scope-edit-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:400;display:none;align-items:center;justify-content:center;-webkit-backdrop-filter:blur(2px);}
+.scope-edit-overlay.open{display:flex;}
 .scope-edit-box{background:var(--bg);border-radius:var(--rlg);padding:20px;width:min(500px,90%);box-shadow:0 20px 60px rgba(0,0,0,0.3);}
 .scope-edit-label{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;}
 .scope-edit-input{width:100%;padding:12px 14px;font-size:17px;background:var(--bg2);border:2px solid #185FA5;border-radius:var(--r);color:var(--text);font-family:inherit;-webkit-appearance:none;}
@@ -334,7 +335,7 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
 .res-card-desc{font-size:14px;color:var(--text2);line-height:1.45;}
 .res-card-arrow{margin-top:10px;font-size:14px;font-weight:700;display:flex;align-items:center;gap:3px;}
 /* GUIDE PANEL */
-.guide-panel{position:fixed;bottom:0;left:0;right:0;margin:0 auto;width:min(900px,94%);height:95%;background:var(--bg2);border-radius:20px 20px 0 0;z-index:202;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .32s cubic-bezier(.32,.72,0,1);overflow:hidden;}
+.guide-panel{position:fixed;bottom:0;left:0;right:0;margin:0 auto;width:min(900px,94%);height:95%;background:var(--bg2);border-radius:20px 20px 0 0;z-index:10000;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .32s cubic-bezier(.32,.72,0,1);overflow:hidden;}
 .guide-panel.open{transform:translateY(0);}
 .guide-panel-hero{background:#1a3a6b;border-radius:18px 18px 0 0;padding:14px 18px 18px;flex-shrink:0;}
 .guide-panel-handle{width:36px;height:4px;background:rgba(255,255,255,0.25);border-radius:2px;margin:0 auto 12px;}
