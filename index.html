@@ -1074,101 +1074,93 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
       <button class="btn" onclick="show('s-resources')">&larr; Back</button>
     </div>
   </div>
-  <div style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;">
-    
+  <div style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 20px;background:var(--bg2);display:flex;flex-direction:column;gap:12px;">
 
-    <!-- Selectors -->
-    <div class="guide-section" style="padding:16px 18px 22px;">
-      <div style="display:flex;flex-direction:column;gap:16px;">
+    <!-- Which option -->
+    <div style="background:var(--bg);border-radius:var(--rlg);padding:16px 18px;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;">Which option?</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;" id="fin-opt-tabs">
+        <div class="guide-tab sel" onclick="setFinOpt(0)" id="fin-opt-0">Option 1<span class="guide-tab-sub" id="fin-opt-price-0">&#8212;</span></div>
+        <div class="guide-tab" onclick="setFinOpt(1)" id="fin-opt-1">Option 2<span class="guide-tab-sub" id="fin-opt-price-1">&#8212;</span></div>
+        <div class="guide-tab" onclick="setFinOpt(2)" id="fin-opt-2">Option 3<span class="guide-tab-sub" id="fin-opt-price-2">&#8212;</span></div>
+      </div>
+    </div>
 
-        <div>
-          <div style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--text2);margin-bottom:8px;">Which option?</div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;" id="fin-opt-tabs">
-            <div class="guide-tab sel" onclick="setFinOpt(0)" id="fin-opt-0" style="font-size:17px;padding:12px 18px;">Option 1<span class="guide-tab-sub" id="fin-opt-price-0">&#8212;</span></div>
-            <div class="guide-tab" onclick="setFinOpt(1)" id="fin-opt-1" style="font-size:17px;padding:12px 18px;">Option 2<span class="guide-tab-sub" id="fin-opt-price-1">&#8212;</span></div>
-            <div class="guide-tab" onclick="setFinOpt(2)" id="fin-opt-2" style="font-size:17px;padding:12px 18px;">Option 3<span class="guide-tab-sub" id="fin-opt-price-2">&#8212;</span></div>
-          </div>
+    <!-- Loan terms -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div style="background:var(--bg);border-radius:var(--rlg);padding:16px 18px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#185FA5;margin-bottom:10px;">GoGreen CCCU</div>
+        <div style="display:flex;flex-direction:column;gap:6px;" id="fin-loan-tabs">
+          <div class="guide-tab" onclick="setFinLoan(0)" style="justify-content:space-between;">30 mo<span class="guide-tab-sub">3.98%</span></div>
+          <div class="guide-tab" onclick="setFinLoan(1)" style="justify-content:space-between;">5 yr<span class="guide-tab-sub">5.38%</span></div>
+          <div class="guide-tab" onclick="setFinLoan(2)" style="justify-content:space-between;">10 yr<span class="guide-tab-sub">6.38%</span></div>
+          <div class="guide-tab sel" onclick="setFinLoan(3)" style="justify-content:space-between;">15 yr<span class="guide-tab-sub">7.38%</span></div>
         </div>
-
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-          <div>
-            <div style="font-size:14px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#185FA5;margin-bottom:10px;">GoGreen CCCU</div>
-            <div style="display:flex;gap:6px;flex-wrap:wrap;" id="fin-loan-tabs">
-              <div class="guide-tab" onclick="setFinLoan(0)" style="font-size:17px;padding:12px 18px;">30 mo<span class="guide-tab-sub">3.98%</span></div>
-              <div class="guide-tab" onclick="setFinLoan(1)" style="font-size:17px;padding:12px 18px;">5 yr<span class="guide-tab-sub">5.38%</span></div>
-              <div class="guide-tab" onclick="setFinLoan(2)" style="font-size:17px;padding:12px 18px;">10 yr<span class="guide-tab-sub">6.38%</span></div>
-              <div class="guide-tab sel" onclick="setFinLoan(3)" style="font-size:17px;padding:12px 18px;">15 yr<span class="guide-tab-sub">7.38%</span></div>
-            </div>
-          </div>
-          <div>
-            <div style="font-size:14px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#534AB7;margin-bottom:10px;">Service Finance</div>
-            <div style="display:flex;gap:6px;" id="fin-sf-tabs">
-              <div class="guide-tab" onclick="setFinSF()" style="font-size:17px;padding:12px 18px;border-color:#534AB7;" id="fin-sf-tab">10 yr<span class="guide-tab-sub">9.99%</span></div>
-            </div>
-          </div>
+      </div>
+      <div style="background:var(--bg);border-radius:var(--rlg);padding:16px 18px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#534AB7;margin-bottom:10px;">Service Finance</div>
+        <div style="display:flex;flex-direction:column;gap:6px;" id="fin-sf-tabs">
+          <div class="guide-tab" onclick="setFinSF()" style="border-color:#534AB7;justify-content:space-between;" id="fin-sf-tab">10 yr<span class="guide-tab-sub">9.99%</span></div>
         </div>
-
       </div>
     </div>
 
     <!-- Results -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-      <div class="guide-section" style="padding:14px;text-align:center;">
-        <div style="font-size:13px;color:var(--text2);margin-bottom:6px;">Monthly payment</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div style="background:var(--bg);border-radius:var(--rlg);padding:16px;text-align:center;">
+        <div style="font-size:12px;color:var(--text3);margin-bottom:6px;">Monthly payment</div>
         <div style="font-size:28px;font-weight:700;color:#185FA5;" id="fin-monthly">&#8212;</div>
       </div>
-      <div class="guide-section" style="padding:14px;text-align:center;">
-        <div style="font-size:13px;color:var(--text2);margin-bottom:6px;">Term &amp; rate</div>
-        <div style="font-size:19px;font-weight:700;color:var(--text);" id="fin-term">&#8212;</div>
+      <div style="background:var(--bg);border-radius:var(--rlg);padding:16px;text-align:center;">
+        <div style="font-size:12px;color:var(--text3);margin-bottom:6px;">Term &amp; rate</div>
+        <div style="font-size:20px;font-weight:700;color:var(--text);" id="fin-term">&#8212;</div>
       </div>
-      <div class="guide-section" style="padding:14px;text-align:center;">
-        <div style="font-size:13px;color:var(--text2);margin-bottom:6px;">Total interest</div>
+      <div style="background:var(--bg);border-radius:var(--rlg);padding:16px;text-align:center;">
+        <div style="font-size:12px;color:var(--text3);margin-bottom:6px;">Total interest</div>
         <div style="font-size:28px;font-weight:700;color:#854F0B;" id="fin-interest">&#8212;</div>
       </div>
-      <div class="guide-section" style="padding:14px;text-align:center;">
-        <div style="font-size:13px;color:var(--text2);margin-bottom:6px;">Total paid</div>
+      <div style="background:var(--bg);border-radius:var(--rlg);padding:16px;text-align:center;">
+        <div style="font-size:12px;color:var(--text3);margin-bottom:6px;">Total paid</div>
         <div style="font-size:28px;font-weight:700;color:var(--text);" id="fin-total-paid">&#8212;</div>
       </div>
     </div>
 
     <!-- Prepayment calculator -->
-    <div class="guide-section">
-      <div style="background:#E6F1FB;"padding:12px 16px;border-bottom:0.5px solid #B5D4F4;">
+    <div style="background:var(--bg);border-radius:var(--rlg);overflow:hidden;">
+      <div style="background:#E6F1FB;padding:14px 18px;border-bottom:0.5px solid #B5D4F4;">
         <div style="font-size:15px;font-weight:700;color:#0C447C;">No prepayment penalty &#8212; pay it off faster</div>
         <div style="font-size:12px;color:#185FA5;margin-top:2px;">Increase your monthly payment to save on interest</div>
       </div>
-      <div style="padding:14px 16px 20px;display:flex;flex-direction:column;gap:14px;">
+      <div style="padding:16px 18px;display:flex;flex-direction:column;gap:14px;">
         <div style="display:flex;align-items:center;gap:12px;">
-          <div style="font-size:14px;font-weight:700;color:var(--text);flex:1;">Increasing payment &#8212; Interest Avoided</div>
+          <div style="font-size:14px;font-weight:600;color:var(--text);flex:1;">Extra monthly payment</div>
           <div style="display:flex;align-items:center;gap:6px;">
             <span style="font-size:15px;color:var(--text2);">$</span>
             <input type="number" min="0" step="50"
-              style="width:120px;padding:8px 10px;font-size:16px;font-weight:700;border:1px solid var(--border2);border-radius:var(--r);background:var(--bg2);color:var(--text);font-family:inherit;"
+              style="width:110px;padding:8px 10px;font-size:16px;font-weight:700;border:1px solid var(--border2);border-radius:var(--r);background:var(--bg2);color:var(--text);font-family:inherit;"
               id="fin-extra-input" oninput="calcFinancing()" placeholder="500">
             <span style="font-size:14px;color:var(--text2);">/mo</span>
           </div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
           <div style="background:var(--bg2);border-radius:var(--r);padding:14px 10px;text-align:center;border:0.5px solid var(--border);">
-            <div style="font-size:13px;color:var(--text2);margin-bottom:6px;">Paid off in</div>
+            <div style="font-size:12px;color:var(--text3);margin-bottom:6px;">Paid off in</div>
             <div style="font-size:20px;font-weight:700;color:#185FA5;" id="fin-payoff-yrs">&#8212;</div>
           </div>
           <div style="background:var(--bg2);border-radius:var(--r);padding:14px 10px;text-align:center;border:0.5px solid var(--border);">
-            <div style="font-size:13px;color:var(--text2);margin-bottom:6px;">Interest paid</div>
+            <div style="font-size:12px;color:var(--text3);margin-bottom:6px;">Interest paid</div>
             <div style="font-size:20px;font-weight:700;color:#854F0B;" id="fin-payoff-interest">&#8212;</div>
           </div>
           <div style="background:var(--bg2);border-radius:var(--r);padding:14px 10px;text-align:center;border:0.5px solid var(--border);">
-            <div style="font-size:13px;color:var(--text2);margin-bottom:6px;">Time saved</div>
+            <div style="font-size:12px;color:var(--text3);margin-bottom:6px;">Time saved</div>
             <div style="font-size:20px;font-weight:700;color:#3B6D11;" id="fin-payoff-saved">&#8212;</div>
           </div>
-        </div>
-        
         </div>
       </div>
     </div>
 
-  
   </div>
+</div>
 
 
 <!-- BUILDER -->
