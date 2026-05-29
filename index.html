@@ -593,7 +593,8 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
         <button onclick="saveContact()" class="btn" style="background:#E87722;color:#fff;border:none;">&#128100; Save Contact</button>
         <label for="neighborhood-img-input" class="btn btn-orange">&#128247; Upload Map</label>
         <input type="file" id="neighborhood-img-input" accept="image/*" style="display:none" onchange="loadNeighborhoodImg(this)">
-        <button onclick="openVideoModal()" class="btn" style="background:#E87722;color:#fff;border:none;">&#127909; Select Video</button>
+        <label for="inspection-video-file-input" class="btn btn-orange" style="cursor:pointer;">&#127909; Select Video</label>
+        <input type="file" id="inspection-video-file-input" accept="video/*" style="display:none" onchange="loadInspectionVideo(this)">
         <input type="hidden" id="video-url" value="">
       </div>
       <!-- 3 Option Columns -->
@@ -3224,8 +3225,15 @@ function loadInspectionVideo(input){
   const file=input.files[0];if(!file)return;
   if(inspectionVideoBlobUrl)URL.revokeObjectURL(inspectionVideoBlobUrl);
   inspectionVideoBlobUrl=URL.createObjectURL(file);
+  // Update the video element on inspection screen
+  const videoEl=document.getElementById('insp-video-el');
+  if(videoEl){videoEl.src=inspectionVideoBlobUrl;videoEl.style.display='block';}
+  // Update label on the button
   const label=document.getElementById('video-file-label');
   if(label)label.textContent=file.name.length>22?file.name.substring(0,22)+'...':file.name;
+  // Show filename on setup Select Video button
+  const btn=document.querySelector('label[for="inspection-video-file-input"]');
+  if(btn)btn.textContent='\uD83C\uDFAC\u00A0'+( file.name.length>18?file.name.substring(0,18)+'...':file.name);
   saveToStorage();
 }
 
