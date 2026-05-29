@@ -3643,9 +3643,10 @@ function buildPreviewHTML(){
     const d=pitchData[p];
     if(!d)return;
     const label=d.label||(TYPE_LABELS[d.type]||d.type||'Roof');
-    const basePrice=d.price?'$'+Number(d.price).toLocaleString():'';
     const addonTotal=d.addonTotal?Number(d.addonTotal):0;
-    const totalNum=(d.price?Number(d.price):0)+addonTotal;
+    const baseNum=(d.price?Number(d.price):0)+addonTotal;
+    const payMode=d.payMode||'ninp';
+    const totalNum=payMode==='cash'?Math.round(baseNum*0.97):payMode==='ninp'?Math.round(baseNum*1.03):baseNum;
     const totalPrice=totalNum?'$'+totalNum.toLocaleString():'';
     let itemsHtml='';
     if(d.scope&&d.scope.core&&d.scope.core.items){
@@ -3666,7 +3667,7 @@ function buildPreviewHTML(){
     cols+=`<div style="flex:1;min-width:200px;background:#f8f9fc;border-radius:12px;padding:16px;margin:0 4px;">
       <div style="font-size:15px;font-weight:700;color:#1a3a6b;margin-bottom:8px;">${label}</div>
       ${itemsHtml}
-      ${totalPrice?`<div style="margin-top:12px;font-size:18px;font-weight:800;color:#1a3a6b;">${totalPrice}</div>`:''}
+      ${totalPrice?`<div style="margin-top:12px;font-size:18px;font-weight:800;color:#1a3a6b;">${totalPrice}</div><div style="font-size:11px;color:#888;margin-top:2px;">${payMode==='ninp'?'1-yr No Interest No Payment':payMode==='cash'?'Check / ACH':payMode==='cc'?'Credit Card':'Monthly Payments'}</div>`:''}
     </div>`;
   });
   return `<div class="share-preview-card" style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#fff;padding:24px;width:390px;box-sizing:border-box;">
