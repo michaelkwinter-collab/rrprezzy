@@ -21,10 +21,12 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
 .topbar-logo{height:36px;width:auto;}
 .topbar-sub{color:rgba(255,255,255,0.6);font-size:15px;font-weight:500;}
 .tright{display:flex;gap:8px;align-items:center;}
-.btn{border:1.5px solid rgba(255,255,255,0.3);border-radius:var(--r);padding:10px 20px;font-size:15px;font-weight:600;cursor:pointer;background:transparent;color:#fff;font-family:inherit;}
+.btn{border:1.5px solid rgba(255,255,255,0.25);border-radius:20px;padding:8px 18px;font-size:14px;font-weight:700;cursor:pointer;background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.85);font-family:inherit;transition:all .18s;-webkit-user-select:none;user-select:none;white-space:nowrap;}
 .btn:active{opacity:0.7;}
-.btn-white{background:#fff;color:var(--navy);border-color:#fff;font-weight:700;}
-.btn-navy{background:var(--navy);color:#fff;border:none;border-radius:var(--r);padding:13px 26px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;}
+.btn-white{background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.4);color:#fff;}
+.btn-navy{background:var(--navy);border-color:var(--navy);color:#fff;}
+.btn-orange{background:#E87722;border-color:#E87722;color:#fff;}
+.btn-navy{background:var(--navy);color:#fff;border-color:var(--navy);}
 .btn-navy:active{opacity:0.85;}
 .btn-outline{background:transparent;border:1.5px solid var(--border2);border-radius:var(--r);padding:11px 20px;font-size:14px;font-weight:600;color:var(--text2);cursor:pointer;font-family:inherit;}
 .btn-outline:active{opacity:0.7;}
@@ -589,7 +591,7 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
           </div>
         </div>
         <button onclick="saveContact()" class="btn" style="background:#E87722;color:#fff;border:none;">&#128100; Save Contact</button>
-        <label for="neighborhood-img-input" class="btn" style="background:#E87722;color:#fff;border:none;cursor:pointer;">&#128247; Upload Map</label>
+        <label for="neighborhood-img-input" class="btn btn-orange">&#128247; Upload Map</label>
         <input type="file" id="neighborhood-img-input" accept="image/*" style="display:none" onchange="loadNeighborhoodImg(this)">
         <button onclick="openVideoModal()" class="btn" style="background:#E87722;color:#fff;border:none;">&#127909; Select Video</button>
         <input type="hidden" id="video-url" value="">
@@ -705,9 +707,8 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
       </div>
     </div>
   </div>
-  <div class="bfooter" style="justify-content:space-between;">
-    <button onclick="resetApp()" style="background:none;border:none;color:var(--text3);font-size:14px;cursor:pointer;font-family:inherit;">Reset</button>
-    <button class="btn btn-white" onclick="goToInspection()">Start Pitch &rarr;</button>
+  <div class="bfooter" style="justify-content:flex-start;">
+    <button onclick="resetApp()" class="btn" style="background:none;border:none;color:var(--text3);">Reset</button>
   </div>
 </div>
 <div id="s-settings" class="screen">
@@ -1197,11 +1198,11 @@ html,body{height:100%;background:#0a0f1a;font-family:-apple-system,BlinkMacSyste
     </div>
   <div id="summary-ctrls" style="flex-shrink:0;padding:0 20px 8px;background:var(--bg2);"></div>
   <div class="bfooter" style="justify-content:space-between;align-items:center;">
-    <button id="send-to-client-btn" onclick="openShareModal()" style="background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.3);border-radius:var(--r);padding:10px 20px;font-size:15px;font-weight:700;color:#fff;cursor:pointer;font-family:inherit;">
+    <button id="send-to-client-btn" onclick="openShareModal()" class="btn btn-white">
       <span id="footer-customer-summary">Client</span>
     </button>
     <div style="display:flex;gap:8px;">
-      <button id="diff-toggle-btn" onclick="toggleDiffMode()" style="background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.25);border-radius:var(--r);padding:10px 20px;font-size:15px;font-weight:700;color:rgba(255,255,255,0.7);cursor:pointer;font-family:inherit;" title="Hide items common to all options">&#9654; Diff</button>
+      <button id="diff-toggle-btn" onclick="toggleDiffMode()" class="btn">&#9654; Diff</button>
     </div>
   </div>
 </div>
